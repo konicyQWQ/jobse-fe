@@ -1,0 +1,54 @@
+.job-item-container {
+  display: flex;
+  font-size: small;
+  padding: 10px 20px;
+  min-height: 100px;
+  border-bottom: 1px solid #eee;
+  transition: all .2s linear;
+  position: relative;
+}
+
+.job-item-container:hover {
+  background: #f9f9f9;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  overflow: hidden;
+  margin-right: 20px;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.requirement {
+  display: flex;
+  margin-top: 5px;
+  line-height: 18px;
+}
+
+.requirement > *:not(:last-child)::after {
+  content: '|';
+  vertical-align: top;
+  margin: 0 10px;
+}
+
+.company {
+  margin-top: 5px;
+  color: #666;
+}
+
+.views {
+  margin-top: 3px;
+  color: #666;
+}
+
+.right-extra {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+}

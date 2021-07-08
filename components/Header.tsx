@@ -12,7 +12,7 @@ export default function Header() {
   useEffect(() => {
     const onScroll = () => {
       const scrollTop = window.pageYOffset | document.documentElement.scrollTop;
-      if (scrollTop >= (53 - 39) / 2) {
+      if (scrollTop >= 6) {
         setFixed(true);
       } else {
         setFixed(false);
@@ -39,7 +39,7 @@ export default function Header() {
           <HistoryIcon />
         </IconButton>
       </div>
-      <div className={classNames(fixed && styles['placeholder'])}></div>
+      <div className={classNames(fixed && styles['placeholder'])}> </div>
     </>
   )
 }

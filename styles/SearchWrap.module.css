@@ -1,0 +1,8 @@
+.container {
+  padding: 10px 10%;
+  border-bottom: 1px solid rgb(0 0 0 / 10%);
+}
+
+.extra-condition {
+  margin-top: 10px;
+}

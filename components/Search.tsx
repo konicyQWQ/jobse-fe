@@ -5,17 +5,18 @@ import SearchIcon from '@material-ui/icons/Search'
 import IconButton from '@material-ui/core/IconButton'
 
 type SerachProps = HTMLAttributes<HTMLDivElement> & {
+  small?: boolean;
   value?: string;
   onChange?: (v: string) => void;
   onSearch?: () => void;
 };
 
 export default function Search(props: SerachProps) {
-  const { className, value, onChange, onSearch, ...other } = props;
+  const { className, value, onChange, onSearch, small = false, ...other } = props;
 
   return (
     <div
-      className={classNames(styles['search-container'], className)}
+      className={classNames(styles['search-container'], className, small && styles['small'])}
       {...other}
     >
       <input

@@ -9,6 +9,13 @@
   border-radius: 24px;
 }
 
+.small {
+  height: 40px;
+  border-bottom: 1px solid rgb(0 0 0 / 30%);
+  box-shadow: none;
+  border-radius: 0;
+}
+
 .input {
   border: none;
   flex: 1;

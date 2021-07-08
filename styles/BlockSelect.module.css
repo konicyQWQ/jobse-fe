@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  min-height: 28px;
+  font-size: small;
+}
+
+.label {
+  font-weight: bold;
+  line-height: 30px;
+  margin-right: 10px;
+}
+
+.option-list {
+  display: flex;
+  align-items: center;
+}
+
+.option {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.option.active {
+  background: #eee;
+}
+
+.option:hover {
+  background: #eee;
+}

@@ -1,0 +1,27 @@
+.container {
+  display: inline-block;
+  position: relative;
+}
+
+.option {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.option:hover {
+  background: #eee;
+}
+
+.option-list {
+  position: absolute;
+  z-index: 10;
+  background: white;
+  box-shadow: 0 1px 5px rgb(0 0 0 / 30%);
+}
+
+.option-list > .option {
+  min-width: 80px;
+  font-size: 14px;
+  text-align: center;
+  padding: 10px;
+}

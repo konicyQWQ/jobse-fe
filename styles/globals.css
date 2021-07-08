@@ -14,3 +14,12 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.body-container {
+  background: #f6f6f6;
+}
+
+.content-container {
+  width: 1104px;
+  margin: 0 auto;
+}

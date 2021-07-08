@@ -1,0 +1,42 @@
+.footer {
+  height: 53px;
+  display: flex;
+  align-items: center;
+  font-size: 0.8em;
+  line-height: 24px;
+}
+
+.code {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.code > * {
+  margin-right: 10px;
+}
+
+.link {
+  padding: 5px 9px;
+  transition: all .3s ease;
+}
+
+.link:hover {
+  background: #eee;
+}
+
+.copyright {
+  flex: 100px;
+  text-align: center;
+}
+
+.placeholder {
+  flex: 1;
+}
+
+.fixed {
+  position: fixed;
+  width: 100%;
+  padding: 0 10%;
+  bottom: 0;
+}

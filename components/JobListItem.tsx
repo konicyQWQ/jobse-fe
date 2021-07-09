@@ -17,27 +17,30 @@ export default function JobListItem(props: JobListItemProps) {
   return (
     <div className={styles['job-item-container']}>
       <div className={styles['avatar']}>
-        <Image
+        {/* <Image
           src={{
             src: company?.iconUrl || '',
             height: 80,
             width: 80,
           }}
           alt={company?.name}
-        />
+        /> */}
       </div>
       <div className={styles['infomation']}>
         <div className={styles['title']}>{title}</div>
         <div className={styles['requirement']}>
           <div>{requirement?.experience ? `${requirement.experience / 12} 年以上` : '不限经验'}</div>
           <div>{requirement?.degree ? `${DegreeLabel[requirement.degree]}以上` : '不限学历'}</div>
-          <div>{salary?.provided ? `${salary.amount?.GreaterThan}K ~ ${salary.amount?.LessThan}K` : '面议'}</div>
+          <div>{salary?.provided 
+            ?  `${Math.floor((salary.amount?.greaterThanOrEqualTo || 0) / 1000)}K ~ ${Math.floor((salary.amount?.lessThanOrEqualTo || 0) / 1000)}K` 
+            : '面议'}
+          </div>
         </div>
         <div className={styles['company']}>{company?.name}</div>
         <div className={styles['views']}>{views} 次浏览</div>
         <div className={styles['right-extra']}>
           <Rating value={star} readOnly precision={0.1} />
-          <div>{TimeToNow2String(updateTime || new Date())}更新</div>
+          <div>{TimeToNow2String(new Date(updateTime || new Date().getTime()))}更新</div>
         </div>
       </div>
     </div>

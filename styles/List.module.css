@@ -2,3 +2,32 @@
   padding-top: 20px;
   padding-bottom: 20px;
 }
+
+.card {
+  background: white;
+}
+
+.sort-title {
+  padding: 10px 20px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sort-statistic {
+  font-size: small;
+}
+
+.number {
+  color: #e74c3c;
+}
+
+.middle {
+  display: flex;
+  align-items: center;
+}
+
+.middle .icon {
+  font-size: inherit;
+}

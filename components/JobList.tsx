@@ -1,18 +1,22 @@
+import { Fade } from '@material-ui/core'
 import styles from '../styles/JobList.module.css'
 import JobListItem, { JobListItemProps } from './JobListItem';
 
 type JobListProps = {
   data?: JobListItemProps[];
+  loading?: boolean;
 }
 
 export default function JobList(props: JobListProps) {
-  const { data } = props;
+  const { data, loading } = props;
 
   return (
-    <div className={styles['job-list-container']}>
-      {data?.map(job => (
-        <JobListItem {...job} key={job.title} />
-      ))}
-    </div>
+    <Fade in={!loading}>
+      <div className={styles['job-list-container']}>
+        {data?.map(job => (
+          <JobListItem {...job} key={job.id} />
+        ))}
+      </div>
+    </Fade>
   )
 }

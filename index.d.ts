@@ -1,10 +1,10 @@
 import * as Type from './type'
 
 declare interface Range {
-	GreaterThan?: number;
-	GreaterThanOrEqualTo?: number;
-	LessThan?: number;
-	LessThanOrEqualTo?: number;
+	greaterThan?: number;
+	greaterThanOrEqualTo?: number;
+	lessThan?: number;
+	lessThanOrEqualTo?: number;
 }
 
 declare interface Salary {
@@ -24,14 +24,21 @@ declare interface JobDescription {
 }
 
 declare interface Position {
+  id?: string;
   title?: string;
   companyId?: string;
-  updateTime?: Date;
+  updateTime?: number;
   rating?: number;
   views?: number;
   salary?: Salary;
   requirement?: JobRequirement;
   description?: JobDescription;
+  company?: Company;
+}
+
+declare interface PositionInfo {
+  id?: string;
+  position?: Position;
 }
 
 declare interface Company {
@@ -40,4 +47,12 @@ declare interface Company {
   url?: string;
   location?: string;
   description?: string;
+}
+
+declare interface JobSearchCondition {
+  title?: string;
+  base?: string[];
+  degree?: Degree;
+  salary?: number;
+  experience?: number;
 }

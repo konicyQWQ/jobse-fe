@@ -6,6 +6,13 @@ export enum Degree {
   Doctor,	//研究生（博士）
 }
 
+export enum SortOrder {
+  UpdateTime,
+  Relevance,
+  Views,
+  Rating
+}
+
 export const DegreeLabel: Record<Degree, string> = {
   [Degree.None]: '不限学历',
   [Degree.JuniorCollege]: '大专',

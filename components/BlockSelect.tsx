@@ -5,7 +5,7 @@ type BlockSelectProps<T extends any> = {
   label?: string;
   value?: T;
   onChange?: (v: T) => void;
-  options?: { value: T, label: string }[];
+  options?: { value: T, label: React.ReactNode }[];
   children?: React.ReactNode;
 }
 

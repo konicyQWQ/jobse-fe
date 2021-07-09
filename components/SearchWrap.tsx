@@ -4,14 +4,30 @@ import styles from '../styles/SearchWrap.module.css'
 import Slider from '@material-ui/core/Slider'
 import { Degree } from '../type'
 import Select from './Select'
+import { JobSearchCondition } from '..'
 
-export default function SearchWrap() {
+type SearchWrapProps = {
+  value?: JobSearchCondition;
+  onChange?: (v: JobSearchCondition) => void;
+  onSearch?: () => void;
+}
+
+export default function SearchWrap(props: SearchWrapProps) {
+  const { value, onChange, onSearch } = props;
+
   return (
     <div className={styles['container']}>
-      <Search small />
+      <Search
+        small
+        value={value?.title}
+        onTextChange={(v) => onChange?.({...value, title: v})}
+        onSearch={onSearch}
+      />
       <div className={styles['extra-condition']}>
         <BlockSelect<number>
           label="工作经验"
+          value={value?.experience}
+          onChange={(v) => onChange?.({...value, experience: v})}
           options={[
             {
               value: -1,
@@ -36,7 +52,9 @@ export default function SearchWrap() {
           ]}
         />
         <BlockSelect<Degree>
-          label="学历要求"
+          label="您的学历"
+          value={value?.degree}
+          onChange={(v) => onChange?.({...value, degree: v})}
           options={[
             {
               value: Degree.None,
@@ -72,6 +90,8 @@ export default function SearchWrap() {
             min={0}
             max={70}
             step={1}
+            value={parseInt(value?.salary)}
+            onChange={(_, v) => onChange?.({...value, salary: v as number})}
             marks={[
               { value: 3, label: '3K' },
               { value: 6, label: '6K' },

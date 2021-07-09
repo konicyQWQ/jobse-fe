@@ -3,13 +3,15 @@
   font-size: small;
   padding: 10px 20px;
   min-height: 100px;
-  border-bottom: 1px solid #eee;
+  border-bottom: .5px solid #f6f6f6;
   transition: all .2s linear;
   position: relative;
 }
 
 .job-item-container:hover {
   background: #f9f9f9;
+  transform: scale(1.01);
+  box-shadow: 0 0 10px rgb(0 0 0 / 10%);
 }
 
 .avatar {

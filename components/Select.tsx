@@ -2,6 +2,7 @@ import { useState } from 'react';
 import styles from '../styles/Select.module.css'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import Grow from '@material-ui/core/Grow'
+import classNames from 'classnames';
 
 type SelectProps<T> = {
   value?: T;
@@ -25,7 +26,7 @@ export default function Select<T>(props: SelectProps<T>) {
             {options?.map(i => (
               <div
                 key={JSON.stringify(i.value)}
-                className={styles['option']}
+                className={classNames(styles['option'], value == i.value && styles['active'])}
                 onClick={() => {
                   setOpen(false);
                   onChange?.(i.value);

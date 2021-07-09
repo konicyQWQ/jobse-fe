@@ -5,6 +5,7 @@ import Slider from '@material-ui/core/Slider'
 import { Degree } from '../type'
 import Select from './Select'
 import { JobSearchCondition } from '..'
+import { City, Province } from '../utils/province'
 
 type SearchWrapProps = {
   value?: JobSearchCondition;
@@ -12,8 +13,14 @@ type SearchWrapProps = {
   onSearch?: () => void;
 }
 
+
 export default function SearchWrap(props: SearchWrapProps) {
   const { value, onChange, onSearch } = props;
+
+  const base = (value?.base as string) || "全部"
+  const provinceID = City.find(i => i.name == base)?.ProID;
+  const provinceName = Province.find(i => i.ProID == provinceID)?.name;
+  const cityArr = City.filter(i => i.ProID == provinceID);
 
   return (
     <div className={styles['container']}>
@@ -79,8 +86,27 @@ export default function SearchWrap(props: SearchWrapProps) {
           ]}
         />
         <BlockSelect label="工作地点">
-          <Select value="浙江" options={[{ value: '浙江', label: '浙江' }, { value: '上海', label: '上海' }]} />
-          <Select value="杭州" options={[{ value: '杭州', label: '杭州' }, { value: '上海', label: '上海' }]} />
+          <Select
+            value={provinceName}
+            options={Province.map(i => ({ value: i.name, label: i.name }))}
+            onChange={(province) => {
+              const newProvince = Province.find(i => i.name == province)?.ProID;
+              onChange?.({
+                ...value,
+                base: City.filter(i => newProvince == i.ProID)[0].name
+            })
+            }}
+          />
+          <Select
+            value={base}
+            options={cityArr.map(i => ({ value: i.name, label: i.name }))}
+            onChange={(city) => {
+              onChange?.({
+                ...value,
+                base: city,
+              })
+            }}
+          />
         </BlockSelect>
         <BlockSelect label="薪资待遇">
           <Slider
@@ -90,8 +116,8 @@ export default function SearchWrap(props: SearchWrapProps) {
             min={0}
             max={70}
             step={1}
-            value={parseInt(value?.salary)}
-            onChange={(_, v) => onChange?.({...value, salary: v as number})}
+            value={parseInt(value?.salary as unknown as string) / 1000}
+            onChange={(_, v) => onChange?.({...value, salary: v as number * 1000})}
             marks={[
               { value: 3, label: '3K' },
               { value: 6, label: '6K' },

@@ -26,13 +26,15 @@ export const defaultSearchCondition: JobSearchCondition = {
 export async function SearchJob(query: JobSearchRequest) {
   const res = await request.post('position', {
     ...defaultSearchCondition,
-    ...query
+    ...query,
+    base: query.base == '全部' ? '' : query.base
   } as JobSearchRequest);
   const data = res.data as JobSearchResponse;
 
   const total = data.positionList?.total;
   const positions : Position[] = data.positionList?.positions?.map(i => ({
     ...i.position,
+    title: i.position?.title?.split('#')[1] || i.position?.title,
     id: i.id,
     company: data.companies?.[i.position?.companyId || 0],
   })) || [];

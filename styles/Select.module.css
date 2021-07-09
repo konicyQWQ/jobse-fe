@@ -8,11 +8,13 @@
   cursor: pointer;
 }
 
-.option:hover {
+.option:hover, .option.active {
   background: #eee;
 }
 
 .option-list {
+  max-height: 500px;
+  overflow: auto;
   position: absolute;
   z-index: 10;
   background: white;

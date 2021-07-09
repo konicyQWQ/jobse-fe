@@ -51,7 +51,7 @@ declare interface Company {
 
 declare interface JobSearchCondition {
   title?: string;
-  base?: string[];
+  base?: string[] | string;
   degree?: Degree;
   salary?: number;
   experience?: number;

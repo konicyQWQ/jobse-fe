@@ -35,6 +35,7 @@ export default function JobListItem(props: JobListItemProps) {
             ?  `${Math.floor((salary.amount?.greaterThanOrEqualTo || 0) / 1000)}K ~ ${Math.floor((salary.amount?.lessThanOrEqualTo || 0) / 1000)}K` 
             : '面议'}
           </div>
+          <div>{requirement?.base?.join(', ')}</div>
         </div>
         <div className={styles['company']}>{company?.name}</div>
         <div className={styles['views']}>{views} 次浏览</div>

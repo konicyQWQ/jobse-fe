@@ -27,7 +27,7 @@ export default function Search(props: SerachProps) {
           if (e.key == 'Enter' || e.keyCode == 13)
             onSearch?.();
         }}
-        placeholder=".net 开发工程师"
+        placeholder="输入职位，公司，关键词"
       />
       <IconButton color="secondary" onClick={() => onSearch?.()}>
         <SearchIcon />

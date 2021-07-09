@@ -12,6 +12,8 @@ import { JobSearchRequest, SearchJob } from '../server';
 import styles from '../styles/List.module.css'
 import { SortOrder } from '../type';
 import debounce from 'lodash/debounce'
+import { useRouter } from 'next/dist/client/router';
+import qs from 'qs';
 
 const Arrow = (text: React.ReactNode) => (
   <div className={styles['middle']}>
@@ -29,7 +31,16 @@ type ListProps = {
 
 export const getServerSideProps : GetServerSideProps = async (req) => {
   const query : QueryType = req.query as unknown as QueryType || { start: 0, limit: 10 };
-  const data = await SearchJob(query);
+  
+  let data;
+  try {
+    data = await SearchJob(query);
+  } catch (e) {
+    data = {
+      positions: [],
+      total: 0,
+    };
+  }
 
   const props : ListProps = {
     data: data.positions,
@@ -48,6 +59,7 @@ export default function List(props: ListProps) {
   const [total, setTotal] = useState(props.total);
   const [first, setFirst] = useState(true);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const searchJob = useCallback(debounce(async (query: JobSearchRequest) => {
     setLoading(true);
@@ -55,6 +67,7 @@ export default function List(props: ListProps) {
       const data = await SearchJob(query);
       setData(data.positions);
       setTotal(data.total);
+      window.history.pushState('', '', router.pathname + '?' + qs.stringify(query));
     } finally {
       setLoading(false);
     }

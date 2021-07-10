@@ -1,6 +1,6 @@
 import { Fade } from '@material-ui/core'
 import styles from '../styles/JobList.module.css'
-import MoodBadIcon from '@material-ui/icons/MoodBad';
+import Empty from './Empty';
 import JobListItem, { JobListItemProps } from './JobListItem';
 
 type JobListProps = {
@@ -18,10 +18,7 @@ export default function JobList(props: JobListProps) {
           <JobListItem {...job} key={job.id} />
         ))}
         {(!data || data.length == 0) && (
-          <div className={styles['empty-container']}>
-            <MoodBadIcon className={styles['icon']} />
-            <h2 className={styles['hint']}>抱歉，暂时没有相关信息</h2>
-          </div>
+          <Empty />
         )}
       </div>
     </Fade>

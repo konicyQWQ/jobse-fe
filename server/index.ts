@@ -2,11 +2,7 @@ import { Company, JobSearchCondition, Position, PositionInfo } from '..';
 import { Degree, SortOrder } from '../type';
 import request from './axios';
 
-export type JobSearchRequest = JobSearchCondition & {
-  sortOrder?: SortOrder;
-  start: number;
-  limit: number;
-}
+export type JobSearchRequest = JobSearchCondition;
 
 export type JobSearchResponse = {
   positionList?: {
@@ -21,6 +17,8 @@ export const defaultSearchCondition: JobSearchCondition = {
   degree: Degree.None,
   salary: 0,
   title: '',
+  start: 0,
+  limit: 10,
 }
 
 export async function SearchJob(query: JobSearchRequest) {
@@ -43,4 +41,39 @@ export async function SearchJob(query: JobSearchRequest) {
     total,
     positions,
   };
+}
+
+export type GetJobDetailRequest = {
+  id?: string;
+}
+
+export type GetJobDetailResponse = {
+  position?: Position;
+  company?: Company;
+}
+
+export async function GetJobDetail(query: GetJobDetailRequest) {
+  const res = await request.get('position', {
+    params: {
+      id: query.id
+    }
+  });
+  const data = res.data as GetJobDetailResponse;
+  return data;
+}
+
+export type RelevantJobRequest = {
+  title?: string;
+  limit?: number;
+  exclude?: string;
+}
+
+export type RelevantJobResponse = Position[];
+
+export async function RelevantJobQuery(query: RelevantJobRequest) {
+  const res = await request.post('position/Relevant', {
+    query
+  });
+  const data = res.data as PositionInfo[];
+  return data.map(i => ({ id: i.id, ...i.position})) as Position[];
 }

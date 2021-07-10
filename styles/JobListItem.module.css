@@ -27,6 +27,11 @@
   line-height: 1.4;
 }
 
+.title:hover {
+  cursor: pointer;
+  color: #e74c3c;
+}
+
 .requirement {
   display: flex;
   margin-top: 5px;

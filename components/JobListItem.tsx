@@ -2,15 +2,16 @@ import { Company, Position } from "..";
 import { DegreeLabel } from "../type";
 import styles from '../styles/JobListItem.module.css'
 import Image from 'next/image'
+import Link from 'next/link'
 import Rating from '@material-ui/lab/Rating'
-import { TimeToNow2String } from "../utils";
+import { salary2text, TimeToNow2String } from "../utils";
 
 export type JobListItemProps = Position & {
   company?: Company;
 };
 
 export default function JobListItem(props: JobListItemProps) {
-  const { title, rating, requirement, salary, updateTime, views, company } = props;
+  const { title, rating, requirement, salary, updateTime, views, company, id } = props;
 
   const star = rating ? rating / 2 : 0;
 
@@ -27,14 +28,21 @@ export default function JobListItem(props: JobListItemProps) {
         /> */}
       </div>
       <div className={styles['infomation']}>
-        <div className={styles['title']}>{title}</div>
+        <Link
+          href={{
+            pathname: 'job',
+            query: {
+              id
+            }
+          }}
+          passHref
+        >
+          <div className={styles['title']}>{title}</div>
+        </Link>
         <div className={styles['requirement']}>
           <div>{requirement?.experience ? `${requirement.experience / 12} 年以上` : '不限经验'}</div>
           <div>{requirement?.degree ? `${DegreeLabel[requirement.degree]}以上` : '不限学历'}</div>
-          <div>{salary?.provided 
-            ?  `${Math.floor((salary.amount?.greaterThanOrEqualTo || 0) / 1000)}K ~ ${Math.floor((salary.amount?.lessThanOrEqualTo || 0) / 1000)}K` 
-            : '面议'}
-          </div>
+          <div>{salary2text(salary)}</div>
           <div>{requirement?.base?.join(', ')}</div>
         </div>
         <div className={styles['company']}>{company?.name}</div>
@@ -47,28 +55,3 @@ export default function JobListItem(props: JobListItemProps) {
     </div>
   )
 }
-
-/**
- * <JobListItem
-    title="前端工程师"
-    requirement={{
-      base: ['杭州', '上海'],
-      degree: Degree.Master,
-      experience: 12
-    }}
-    salary={{
-      provided: true,
-      amount: {
-        GreaterThan: 1,
-        LessThan: 4
-      }
-    }}
-    rating={7.2}
-    views={3366}
-    updateTime={new Date('2021.7.6')}
-    company={{
-      iconUrl: 'http://pic1.jobui.com/companyLogo/10375749/16045652779687.jpg!msq',
-      name: '杭州鸿雁电器有限公司',
-    }}
-  />
- */

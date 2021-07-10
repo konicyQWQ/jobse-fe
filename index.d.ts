@@ -21,6 +21,7 @@ declare interface JobRequirement {
 declare interface JobDescription {
   url?: string;
   description?: string;
+  tags?: string[];
 }
 
 declare interface Position {
@@ -55,4 +56,7 @@ declare interface JobSearchCondition {
   degree?: Degree;
   salary?: number;
   experience?: number;
+  sortOrder?: SortOrder;
+  start?: number;
+  limit?: number;
 }

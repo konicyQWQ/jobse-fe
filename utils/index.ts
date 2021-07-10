@@ -1,3 +1,5 @@
+import { Salary } from "..";
+
 const minute = 1000 * 60;
 const hour = 60 * minute;
 const day = 24 * hour;
@@ -19,4 +21,10 @@ export function TimeToNow2String(time: Date) : string {
     return `${Math.floor(diffDay)} 天前`;
 
   return time.toLocaleDateString();
+}
+
+export function salary2text(salary?: Salary) : string {
+  return salary?.provided 
+  ?  `${Math.floor((salary.amount?.greaterThanOrEqualTo || 0) / 1000)}K ~ ${Math.floor((salary.amount?.lessThanOrEqualTo || 0) / 1000)}K / 月` 
+  : '面议'
 }

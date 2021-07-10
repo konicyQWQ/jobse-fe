@@ -1,0 +1,115 @@
+.container {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.card {
+  background: white;
+  border: 0.5px solid #f3f3f3;
+}
+
+.title-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 24px;
+}
+
+.extra-container {
+  display: flex;
+  align-items: center;
+}
+
+.extra-container>* {
+  margin-right: 10px;
+}
+
+.salary {
+  font-size: 18px;
+  color: #ff4757;
+}
+
+.company-container {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  font-size: 15px;
+  line-height: 15px;
+}
+
+.company-container>*:not(:last-child)::after {
+  content: '|';
+  margin: 0 10px;
+  vertical-align: center;
+}
+
+.bottom-container {
+  margin-top: 10px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.bottom-container .tags {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.bottom-container .tags>* {
+  margin-right: 10px;
+}
+
+.bottom-container .requirement {
+  display: flex;
+  align-items: center;
+  font-size: small;
+  color: #666;
+}
+
+.bottom-container .requirement>*:not(:first-child)::before {
+  content: '|';
+  margin: 0 10px;
+}
+
+.job-header {
+  padding: 20px 40px;
+  border-bottom: 0.5px solid #eee;
+}
+
+.views {
+  font-size: small;
+  color: #666;
+}
+
+.job-content {
+  display: flex;
+  padding: 20px 40px;
+}
+
+.job-content>*:first-child {
+  flex: 1;
+}
+
+.article h2 {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.article h2::before {
+  content: '';
+  margin-right: 10px;
+  padding: 4px;
+  background: linear-gradient(135deg, #ffa502, #ff6348);
+}
+
+.article p {
+  font-size: small;
+}
+
+.job-content>.aside {
+  width: 300px;
+}

@@ -30,7 +30,7 @@ export default function Footer(props: FooterProps) {
           前端
         </a>
         <a
-          href="#"
+          href="https://github.com/DWTwilight/JobSEServer"
           className={styles['link']}
           target="_blank"
           rel="noreferrer"

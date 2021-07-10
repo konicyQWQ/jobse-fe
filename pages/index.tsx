@@ -7,7 +7,6 @@ import Typist from 'react-typist'
 import 'react-typist/dist/Typist.css'
 import { useState } from "react"
 import { useRouter } from "next/dist/client/router"
-import { JobSearchCondition } from ".."
 import { defaultSearchCondition } from "../server"
 import { SortOrder } from "../type"
 
@@ -15,13 +14,13 @@ export default function Home() {
   const [title, setTitle] = useState('');
   const router = useRouter();
 
-  async function onSearch() {
+  async function onSearch(searchNull?: boolean) {
     router.push({
       pathname: 'list',
       query: {
         ...defaultSearchCondition,
         sortOrder: SortOrder.Relevance,
-        title,
+        title: searchNull ? '' : title,
         start: 0,
         limit: 10,
       }
@@ -54,7 +53,11 @@ export default function Home() {
             onSearch={onSearch}
           />
           <div className={styles['extra-search']}>
-            <Button>条件搜索?</Button>
+            <Button onClick={() => {
+              onSearch(true)
+            }}>
+              条件搜索?
+            </Button>
           </div>
         </div>
       </main>

@@ -11,9 +11,8 @@ import SearchWrap from '../components/SearchWrap'
 import { JobSearchRequest, SearchJob } from '../server';
 import styles from '../styles/List.module.css'
 import { Degree, SortOrder } from '../type';
-import debounce from 'lodash/debounce'
 import { useRouter } from 'next/dist/client/router';
-import qs from 'qs';
+import debounce from 'lodash/debounce';
 
 export const Arrow = (text: React.ReactNode) => (
   <div className={styles['middle']}>
@@ -31,14 +30,14 @@ type ListProps = {
 
 export function FillJobQueryByDefault(query: QueryType) : QueryType {
   return {
-    experience: query.experience || -1,
-    degree: query.degree || Degree.None,
-    salary: query.salary || 0,
+    experience: query.experience != undefined ? parseInt(query.experience) : -1,
+    degree: parseInt(query.degree) || Degree.None,
+    salary: parseInt(query.salary) || 0,
     title: query.title || '',
-    start: query.start || 0,
-    limit: query.limit || 10,
+    start: parseInt(query.start) || 0,
+    limit: parseInt(query.limit) || 10,
     base: query.base == '全部' ? '' : (query.base || ''),
-    sortOrder: SortOrder.Relevance,
+    sortOrder: parseInt(query.sortOrder) || SortOrder.Relevance,
   }
 }
 
@@ -67,33 +66,24 @@ export const getServerSideProps : GetServerSideProps = async (req) => {
 }
 
 export default function List(props: ListProps) {
-  const [query, setQuery] = useState(props.query);
-  const [data, setData] = useState(props.data);
-  const [total, setTotal] = useState(props.total);
-  const [first, setFirst] = useState(true);
-  const [loading, setLoading] = useState(false);
+  const { data, total } = props;
   const router = useRouter();
+  
+  const [query, setQuery] = useState(props.query);
+  useEffect(() => {
+    setQuery(props.query)
+  }, [props.query])
 
-  const searchJob = useCallback(debounce(async (query: JobSearchRequest) => {
-    setLoading(true);
-    try {
-      const data = await SearchJob(query);
-      setData(data.positions);
-      setTotal(data.total);
-    } finally {
-      setLoading(false);
+  const routerPush = useCallback(debounce((query: QueryType) => router.push({
+    pathname: 'list',
+    query: {
+      ...query
     }
-  }, 300), []);
+  }), 300), [])
 
   useEffect(() => {
-    setFirst(false);
-  }, [])
-
-  useEffect(() => {
-    if (!first) {
-      searchJob(query);
-    }
-  }, [JSON.stringify({ ...query, title: '' })])
+    routerPush(query);
+  }, [query.base, query.degree, query.experience, query.sortOrder, query.start, query.limit, query.salary])
 
   return (
     <>
@@ -110,7 +100,7 @@ export default function List(props: ListProps) {
           ...query,
           ...v
         })}
-        onSearch={() => searchJob(query)}
+        onSearch={() => routerPush(query)}
       />
       <main className="body-container">
         <div className="content-container">
@@ -132,7 +122,7 @@ export default function List(props: ListProps) {
                   找到 <span className={styles['number']}>{total}</span> 条结果
                 </div>
               </div>
-              <JobList data={data} loading={loading} />
+              <JobList data={data} />
             </div>
           </div>
         </div>

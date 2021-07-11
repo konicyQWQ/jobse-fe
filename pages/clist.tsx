@@ -11,7 +11,6 @@ import { Arrow } from './list';
 import BlockSelect from '../components/BlockSelect';
 import { useRouter } from 'next/dist/client/router';
 import debounce from 'lodash/debounce';
-import qs from 'qs';
 
 type QueryType = SearchCompanyRequest;
 type ClistProps = SearchCompanyResponse & {
@@ -20,8 +19,8 @@ type ClistProps = SearchCompanyResponse & {
 
 export function FillCompanyQueryByDefault(query: QueryType) : QueryType {
   return {
-    limit: query.limit || 10,
-    start: query.start || 0,
+    limit: parseInt(query.limit) || 10,
+    start: parseInt(query.start) || 0,
     name: query.name || ''
   }
 }
@@ -50,39 +49,29 @@ export const getServerSideProps : GetServerSideProps = async (req) => {
 }
 
 export default function Clist(props:ClistProps) {
-  const [query, setQuery] = useState(props.query);
-  const [data, setData] = useState(props.companyList);
-  const [total, setTotal] = useState(props.total);
-  const [first, setFirst] = useState(true);
-  const [loading, setLoading] = useState(false);
+  const { companyList, total } = props;
   const router = useRouter();
+  
+  const [query, setQuery] = useState(props.query);
+  useEffect(() => {
+    setQuery(props.query);
+  }, [props.query])
 
-  const searchCompany = useCallback(debounce(async (query: SearchCompanyRequest) => {
-    setLoading(true);
-    try {
-      const data = await SearchCompany(query);
-      setData(data.companyList);
-      setTotal(data.total);
-      window.history.pushState('', '', router.pathname + '?' + qs.stringify(query));
-    } finally {
-      setLoading(false);
+  const routerPush = useCallback(debounce((query: QueryType) => router.push({
+    pathname: 'clist',
+    query: {
+      ...query
     }
-  }, 300), []);
+  }), 300), [])
 
   useEffect(() => {
-    setFirst(false);
-  }, [])
-
-  useEffect(() => {
-    if (!first) {
-      searchCompany(query);
-    }
-  }, [JSON.stringify({ ...query, name: '' })])
+    routerPush(query);
+  }, [query.start, query.limit])
   
   return (
     <>
       <Header />
-      <CompanySearchWrap value={query} onChange={setQuery} onSearch={() => searchCompany(query)} />
+      <CompanySearchWrap value={query} onChange={setQuery} onSearch={() => routerPush(query)} />
       <main className="body-container">
         <div className="content-container">
           <div className={styles['container']}>
@@ -99,7 +88,7 @@ export default function Clist(props:ClistProps) {
                   找到 <span className={styles['number']}>{total}</span> 条结果
                 </div>
               </div>
-              <CompanyList data={data} loading={loading} />
+              <CompanyList data={companyList} />
             </div>
           </div>
         </div>

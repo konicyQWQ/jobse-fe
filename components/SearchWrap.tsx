@@ -38,7 +38,11 @@ export default function SearchWrap(props: SearchWrapProps) {
           options={[
             {
               value: -1,
-              label: '所有'
+              label: '不限经验'
+            },
+            {
+              value: 0,
+              label: '应届'
             },
             {
               value: 12,
@@ -52,10 +56,6 @@ export default function SearchWrap(props: SearchWrapProps) {
               value: 60,
               label: '5年以上'
             },
-            {
-              value: 0,
-              label: '不限经验'
-            }
           ]}
         />
         <BlockSelect<Degree>

@@ -1,4 +1,5 @@
 import { Salary } from "..";
+import qs from 'qs';
 
 const minute = 1000 * 60;
 const hour = 60 * minute;
@@ -27,4 +28,10 @@ export function salary2text(salary?: Salary) : string {
   return salary?.provided 
   ?  `${Math.floor((salary.amount?.greaterThanOrEqualTo || 0) / 1000)}K ~ ${Math.floor((salary.amount?.lessThanOrEqualTo || 0) / 1000)}K / 月` 
   : '面议'
+}
+
+export function getHrefQuery() {
+  const url = window.location.search;
+
+  return qs.parse(url);
 }

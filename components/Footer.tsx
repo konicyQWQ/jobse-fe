@@ -13,7 +13,7 @@ export default function Footer(props: FooterProps) {
 
   return (
     <footer
-      className={classNames(styles['footer'], fixed && styles['fixed'])}
+      className={classNames(styles['footer'], fixed && styles['fixed'], color == 'black' && styles['black'])}
       style={{
         color: textColor,
         background: color

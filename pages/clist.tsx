@@ -11,6 +11,7 @@ import { Arrow } from './list';
 import BlockSelect from '../components/BlockSelect';
 import { useRouter } from 'next/dist/client/router';
 import debounce from 'lodash/debounce';
+import Pagination from '../components/Pagination'
 
 type QueryType = SearchCompanyRequest;
 type ClistProps = SearchCompanyResponse & {
@@ -89,6 +90,15 @@ export default function Clist(props:ClistProps) {
                 </div>
               </div>
               <CompanyList data={companyList} />
+              <Pagination
+                start={query.start}
+                limit={query.limit}
+                total={total} 
+                onChange={(v) => setQuery({
+                  ...query,
+                  ...v
+                })}
+              />
             </div>
           </div>
         </div>

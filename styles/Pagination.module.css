@@ -1,0 +1,25 @@
+.pagination {
+  display: flex;
+  align-items: center;
+  padding: 20px 40px;
+}
+
+.pagination>* {
+  margin-right: 10px;
+}
+
+.page {
+  cursor: pointer;
+  padding: 9px 14px;
+  transition: all .2s linear;
+  font-weight: 300;
+}
+
+.page:hover,
+.active {
+  background: #eee;
+}
+
+.page.eli {
+  cursor: auto;
+}

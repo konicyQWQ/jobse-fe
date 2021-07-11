@@ -13,6 +13,8 @@ import styles from '../styles/List.module.css'
 import { Degree, SortOrder } from '../type';
 import { useRouter } from 'next/dist/client/router';
 import debounce from 'lodash/debounce';
+import qs from 'qs';
+import Pagination from '../components/Pagination';
 
 export const Arrow = (text: React.ReactNode) => (
   <div className={styles['middle']}>
@@ -61,7 +63,7 @@ export const getServerSideProps : GetServerSideProps = async (req) => {
   }
 
   return {
-    props
+    props,
   }
 }
 
@@ -82,8 +84,16 @@ export default function List(props: ListProps) {
   }), 300), [])
 
   useEffect(() => {
-    routerPush(query);
-  }, [query.base, query.degree, query.experience, query.sortOrder, query.start, query.limit, query.salary])
+    routerPush({
+      ...query,
+      start: 0,
+      limit: 10,
+    });
+  }, [query.base, query.degree, query.experience, query.sortOrder, query.salary])
+
+  useEffect(() => {
+    routerPush(query)
+  }, [query.start, query.limit])
 
   return (
     <>
@@ -123,6 +133,15 @@ export default function List(props: ListProps) {
                 </div>
               </div>
               <JobList data={data} />
+              <Pagination
+                start={query.start}
+                limit={query.limit}
+                total={total} 
+                onChange={(v) => setQuery({
+                  ...query,
+                  ...v
+                })}
+              />
             </div>
           </div>
         </div>

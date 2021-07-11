@@ -1,6 +1,4 @@
-import { useState, useEffect } from "react";
 import { Position } from "..";
-import { RelevantJobQuery } from "../server";
 import styles from '../styles/RelevantJobList.module.css'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
@@ -8,32 +6,16 @@ import Fade from '@material-ui/core/Fade'
 import Button from '@material-ui/core/Button'
 import Link from 'next/link'
 import { salary2text } from "../utils";
-import { useRouter } from "next/dist/client/router";
 import Empty from './Empty';
 
 type RelevantJobListProps = {
-  position?: Position;
+  positions?: Position[];
+  loading?: boolean;
+  onClickMore?: () => void;
 };
 
 export default function RelevantJobList(props: RelevantJobListProps) {
-  const { position } = props;
-  const [loading, setLoading] = useState(true);
-  const [list, setList] = useState<Position[]>([]);
-  const router = useRouter();
-
-  useEffect(() => {
-    if (position?.id) {
-      (async () => {
-        const data = await RelevantJobQuery({
-          title: position?.title,
-          exclude: position?.id,
-          limit: 5,
-        })
-        setList(data);
-        setLoading(false);
-      })();
-    }
-  }, [position?.id, position?.title])
+  const { positions, loading, onClickMore } = props;
 
   return (
     <div className={styles['card']}>
@@ -44,7 +26,7 @@ export default function RelevantJobList(props: RelevantJobListProps) {
         {loading && <CircularProgress color="secondary" />}
         <Fade in={!loading}>
           <div className={styles['list']}>
-            {list.map(position => (
+            {positions?.map(position => (
               <div className={styles['item']} key={position.id}>
                 <Link
                   passHref
@@ -72,23 +54,16 @@ export default function RelevantJobList(props: RelevantJobListProps) {
                 </div>
               </div>
             ))}
-            {(!list || list.length == 0) && <Empty size="small" />}
+            {(!positions || positions.length == 0) && <Empty size="small" />}
           </div>
         </Fade>
       </div>
-      {list.length > 5 && (
+      {positions && positions.length > 5 && (
         <div className={styles['more']}>
           <Button
             className={styles['button']}
             size="large"
-            onClick={() => {
-              router.push({
-                pathname: 'list',
-                query: {
-                  title: position?.title?.split('#').join(' '),
-                }
-              })
-            }}
+            onClick={onClickMore}
           >
             <MoreHorizIcon />
             查看更多

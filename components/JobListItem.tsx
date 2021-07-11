@@ -4,6 +4,7 @@ import styles from '../styles/JobListItem.module.css'
 import Link from 'next/link'
 import Rating from '@material-ui/lab/Rating'
 import { salary2text, TimeToNow2String } from "../utils";
+import Image from "./Image";
 
 export type JobListItemProps = Position & {
   company?: Company;
@@ -17,7 +18,7 @@ export default function JobListItem(props: JobListItemProps) {
   return (
     <div className={styles['job-item-container']}>
       <div className={styles['avatar']}>
-        <img
+        <Image
           className="icon"
           src={company?.iconUrl}
           alt={company?.name}

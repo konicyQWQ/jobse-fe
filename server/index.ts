@@ -1,6 +1,5 @@
 import { Company, CompanyInfo, JobSearchCondition, Position, PositionInfo } from '..';
 import { FillJobQueryByDefault } from '../pages/list';
-import { Degree } from '../type';
 import request from './axios';
 
 export type JobSearchRequest = JobSearchCondition;
@@ -99,4 +98,62 @@ export async function SearchCompany(query: SearchCompanyRequest) {
       id: i.id,
     }))
   };
+}
+
+export type GetCompanyRequest = {
+  id?: string;
+}
+
+export type GetCompanyResponse = Company;
+
+export async function GetCompanyDetail(query: GetCompanyRequest) {
+  const res = await request.get('company', {
+    params: {
+      id: query.id
+    }
+  });
+  const data = res.data as GetCompanyResponse;
+  return data;
+}
+
+export type GetCompanyPositionsRequest = {
+  id?: string;
+  start?: number;
+  limit?: number;
+};
+
+export type GetCompanyPositionsTmpResponse = {
+  total?: number;
+  positions?: PositionInfo[];
+};
+
+export async function GetCompanyPositions(query: GetCompanyPositionsRequest) {
+  const res = await request.get('company/positions', {
+    params: {
+      id: query.id,
+      start: query.start || 0,
+      limit: query.limit || 10
+    }
+  });
+  const data = res.data as GetCompanyPositionsTmpResponse;
+
+  return {
+    total: data.total,
+    positions: data.positions?.map(i => ({
+      ...i.position,
+      id: i.id,
+    }))
+  };
+}
+
+export type RatePositionRequest = {
+  id?: string;
+  score?: number;
+}
+
+export async function RatePosition(query: RatePositionRequest) {
+  const res = await request.post('position/rate', {
+    ...query
+  })
+  return Promise.resolve();
 }

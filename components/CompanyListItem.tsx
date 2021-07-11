@@ -2,16 +2,19 @@ import { Company } from "..";
 import styles from '../styles/CompanyListItem.module.css'
 import Link from 'next/link'
 import Chip from '@material-ui/core/Chip'
+import Image from '../components/Image'
+import { useRouter } from "next/dist/client/router";
 
 export type CompanyListItemProps = Company;
 
 export default function CompanyListItem(props: CompanyListItemProps) {
   const { iconUrl, location, name, id, tags } = props;
+  const router = useRouter();
 
   return (
     <div className={styles['company-item-container']}>
       <div className={styles['avatar']}>
-        <img
+        <Image
           className="icon"
           src={iconUrl}
           alt={name}
@@ -34,7 +37,19 @@ export default function CompanyListItem(props: CompanyListItemProps) {
         </div>
         <div className={styles['tags']}>
           {tags?.map(i => (
-            <Chip size="small" clickable label={i} key={i} />
+            <div
+              key={i}
+              onClick={() => {
+                router.push({
+                  pathname: 'clist',
+                  query: {
+                    name: i,
+                  }
+                })
+              }}
+            >
+              <Chip size="small" clickable label={i} />
+            </div>
           ))}
         </div>
       </div>

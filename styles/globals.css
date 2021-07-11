@@ -2,8 +2,7 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 a {
@@ -21,4 +20,17 @@ a {
 
 .content-container {
   margin: 0 10%;
+}
+
+.global-loading-bar {
+  position: fixed !important;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  right: 0;
+}
+
+img.icon {
+  width: 80px;
+  height: 80px;
 }

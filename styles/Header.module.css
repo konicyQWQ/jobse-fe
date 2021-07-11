@@ -17,11 +17,11 @@
   align-items: center;
 }
 
-.icon-container > .icon {
+.icon-container>.icon {
   margin-right: 5px;
 }
 
-.icon-container > .text {
+.icon-container>.text {
   vertical-align: middle;
   font-size: 22px;
   transition: all .2s linear;
@@ -31,7 +31,9 @@
   flex: 1;
 }
 
+
 /* fixed 时候的样式调整 */
+
 .fixed.header {
   position: fixed;
   height: 53px;

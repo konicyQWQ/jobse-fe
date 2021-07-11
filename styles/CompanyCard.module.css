@@ -7,13 +7,12 @@
 
 .title {
   margin-top: 10px;
-  font-size: large;
-  font-weight: 300;
+  font-size: medium;
 }
 
 .description {
   margin-top: 10px;
-  font-weight: 300;
+  font-size: small;
   text-align: center;
   width: 100%;
   white-space: nowrap;

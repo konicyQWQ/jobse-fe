@@ -1,0 +1,48 @@
+.company-item-container {
+  display: flex;
+  font-size: small;
+  padding: 10px 20px;
+  min-height: 100px;
+  border-bottom: .5px solid #f6f6f6;
+  transition: all .2s linear;
+  position: relative;
+}
+
+.company-item-container:hover {
+  background: #f9f9f9;
+  transform: scale(1.01);
+  box-shadow: 0 0 10px rgb(0 0 0 / 10%);
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  overflow: hidden;
+  margin-right: 20px;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.title:hover {
+  cursor: pointer;
+  color: #e74c3c;
+}
+
+.location {
+  margin-top: 5px;
+  color: #666;
+}
+
+.company-item-container .tags {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.company-item-container .tags>* {
+  margin-right: 10px;
+}

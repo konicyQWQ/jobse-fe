@@ -42,12 +42,18 @@ declare interface PositionInfo {
   position?: Position;
 }
 
+declare interface CompanyInfo {
+  id?: string;
+  company?: Company;
+}
+
 declare interface Company {
   name?: string;
   iconUrl?: string;
-  url?: string;
+  id?: string;
   location?: string;
   description?: string;
+  tags?: string[];
 }
 
 declare interface JobSearchCondition {
@@ -59,4 +65,8 @@ declare interface JobSearchCondition {
   sortOrder?: SortOrder;
   start?: number;
   limit?: number;
+}
+
+declare interface CompanySearchCondition {
+  name?: string;
 }

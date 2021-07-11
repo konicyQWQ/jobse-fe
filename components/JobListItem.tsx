@@ -1,7 +1,6 @@
 import { Company, Position } from "..";
 import { DegreeLabel } from "../type";
 import styles from '../styles/JobListItem.module.css'
-import Image from 'next/image'
 import Link from 'next/link'
 import Rating from '@material-ui/lab/Rating'
 import { salary2text, TimeToNow2String } from "../utils";
@@ -18,14 +17,11 @@ export default function JobListItem(props: JobListItemProps) {
   return (
     <div className={styles['job-item-container']}>
       <div className={styles['avatar']}>
-        {/* <Image
-          src={{
-            src: company?.iconUrl || '',
-            height: 80,
-            width: 80,
-          }}
+        <img
+          className="icon"
+          src={company?.iconUrl}
           alt={company?.name}
-        /> */}
+        />
       </div>
       <div className={styles['infomation']}>
         <Link

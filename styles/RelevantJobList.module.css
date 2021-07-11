@@ -34,7 +34,7 @@
   box-shadow: 0 0 10px rgb(0 0 0 / 10%);
 }
 
-.item .title:hover {
+.item .job-title:hover {
   cursor: pointer;
   color: #e74c3c;
 }

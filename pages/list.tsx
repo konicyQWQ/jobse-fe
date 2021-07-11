@@ -10,12 +10,12 @@ import JobList from "../components/JobList"
 import SearchWrap from '../components/SearchWrap'
 import { JobSearchRequest, SearchJob } from '../server';
 import styles from '../styles/List.module.css'
-import { SortOrder } from '../type';
+import { Degree, SortOrder } from '../type';
 import debounce from 'lodash/debounce'
 import { useRouter } from 'next/dist/client/router';
 import qs from 'qs';
 
-const Arrow = (text: React.ReactNode) => (
+export const Arrow = (text: React.ReactNode) => (
   <div className={styles['middle']}>
     {text}
     <ArrowDropDownIcon className={styles['icon']} />
@@ -29,8 +29,21 @@ type ListProps = {
   data?: Position[];
 }
 
+export function FillJobQueryByDefault(query: QueryType) : QueryType {
+  return {
+    experience: query.experience || -1,
+    degree: query.degree || Degree.None,
+    salary: query.salary || 0,
+    title: query.title || '',
+    start: query.start || 0,
+    limit: query.limit || 10,
+    base: query.base == '全部' ? '' : (query.base || ''),
+    sortOrder: SortOrder.Relevance,
+  }
+}
+
 export const getServerSideProps : GetServerSideProps = async (req) => {
-  const query : QueryType = req.query as unknown as QueryType || { start: 0, limit: 10 };
+  const query : QueryType = FillJobQueryByDefault(req.query);
   
   let data;
   try {
@@ -67,7 +80,6 @@ export default function List(props: ListProps) {
       const data = await SearchJob(query);
       setData(data.positions);
       setTotal(data.total);
-      window.history.pushState('', '', router.pathname + '?' + qs.stringify(query));
     } finally {
       setLoading(false);
     }

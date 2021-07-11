@@ -55,6 +55,7 @@ export default function Job(props: JobProps) {
         <div className="content-container">
           <div className={styles["container"]}>
             <div className={styles['card']}>
+              {/* 工作的头部信息展示 */}
               <div className={styles['job-header']}>
                 <div className={styles['title-container']}>
                   <div className={styles['title']}>
@@ -97,6 +98,7 @@ export default function Job(props: JobProps) {
                   />
                 </div>
               </div>
+              {/* 工作的简介和公司展示 */}
               <div className={styles['job-content']}>
                 <article className={styles['article']}>
                   <h2>职位信息</h2>

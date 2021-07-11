@@ -1,5 +1,6 @@
-import { Company, JobSearchCondition, Position, PositionInfo } from '..';
-import { Degree, SortOrder } from '../type';
+import { Company, CompanyInfo, JobSearchCondition, Position, PositionInfo } from '..';
+import { FillJobQueryByDefault } from '../pages/list';
+import { Degree } from '../type';
 import request from './axios';
 
 export type JobSearchRequest = JobSearchCondition;
@@ -12,21 +13,8 @@ export type JobSearchResponse = {
   companies?: Record<string, Company>;
 }
 
-export const defaultSearchCondition: JobSearchCondition = {
-  experience: -1,
-  degree: Degree.None,
-  salary: 0,
-  title: '',
-  start: 0,
-  limit: 10,
-}
-
 export async function SearchJob(query: JobSearchRequest) {
-  const res = await request.post('position', {
-    ...defaultSearchCondition,
-    ...query,
-    base: query.base == '全部' ? '' : query.base
-  } as JobSearchRequest);
+  const res = await request.post('position', FillJobQueryByDefault(query));
   const data = res.data as JobSearchResponse;
 
   const total = data.positionList?.total;
@@ -76,4 +64,39 @@ export async function RelevantJobQuery(query: RelevantJobRequest) {
   });
   const data = res.data as PositionInfo[];
   return data.map(i => ({ id: i.id, ...i.position})) as Position[];
+}
+
+export type SearchCompanyRequest = {
+  name?: string;
+  start?: number;
+  limit?: number;
+}
+
+type SearchCompanyResponseTmpData = {
+  total?: number;
+  companyList?: CompanyInfo[];
+}
+
+export type SearchCompanyResponse = {
+  total?: number;
+  companyList?: Company[];
+}
+
+export async function SearchCompany(query: SearchCompanyRequest) {
+  const res = await request.get('company/search', {
+    params: {
+      start: 0,
+      limit: 10,
+      name: '',
+      ...query,
+    }
+  });
+  const data = res.data as SearchCompanyResponseTmpData;
+  return {
+    total: data.total,
+    companyList: data.companyList?.map(i => ({
+      ...i.company,
+      id: i.id,
+    }))
+  };
 }

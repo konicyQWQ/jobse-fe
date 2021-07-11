@@ -1,4 +1,5 @@
 import IconButton from "@material-ui/core/IconButton";
+import Button from "@material-ui/core/Button";
 import Link from 'next/link';
 import BusinessOutlined from "@material-ui/icons/BusinessOutlined";
 import HistoryIcon from '@material-ui/icons/History';
@@ -30,9 +31,19 @@ export default function Header() {
           <a className={styles['icon-container']}>
             <BusinessOutlined className={styles['icon']} />
             <span className={styles['text']}>
-              Job Search / 工作搜索引擎
+              Job Searcher
             </span>
           </a>
+        </Link>
+        <Link href="/list" passHref>
+          <Button className={styles['nav']}>
+            找工作
+          </Button>
+        </Link>
+        <Link href="/clist" passHref>
+          <Button className={styles['nav']}>
+            查公司
+          </Button>
         </Link>
         <div className={styles['header-seperation']}></div>
         <IconButton>

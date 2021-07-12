@@ -59,14 +59,17 @@
 }
 
 .company-content {
-  display: flex;
   padding: 20px 40px;
 }
 
-.company-content>*:first-child {
-  flex: 1;
+.article h2 {
+  font-size: 18px;
+  font-weight: 500;
 }
 
-.company-content>.aside {
-  width: 300px;
+.article h2::before {
+  content: '';
+  margin-right: 10px;
+  padding: 4px;
+  background: linear-gradient(135deg, #ffa502, #ff6348);
 }

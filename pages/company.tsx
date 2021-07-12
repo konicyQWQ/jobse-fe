@@ -8,19 +8,28 @@ import { GetCompanyDetail, GetCompanyPositions } from "../server";
 import styles from '../styles/Company.module.css'
 import Chip from '@material-ui/core/Chip'
 import Button3D from "../components/Button3D";
-import RelevantJobList from "../components/RelevantJobList";
 import { useEffect, useState } from "react";
+import JobList from '../components/JobList'
+import Pagination from '../components/Pagination'
+import { positions } from "@material-ui/system";
 
 type QueryType = {
   id?: string;
+  start?: number;
+  limit?: number;
 }
 
 type CompanyProps = {
   company?: Company;
+  query?: QueryType;
 }
 
 export const getServerSideProps: GetServerSideProps = async (req) => {
-  const query: QueryType = req.query || { id: 0 };
+  const query: QueryType = {
+    id: (req.query.id || 0) as string,
+    start: parseInt(req.query.start || 0) || 0,
+    limit: parseInt(req.query.end || 5) || 5
+  };
   let data: Company;
   try {
     data = await GetCompanyDetail(query);
@@ -34,7 +43,8 @@ export const getServerSideProps: GetServerSideProps = async (req) => {
 
   return {
     props: {
-      company: data
+      company: data,
+      query,
     } as CompanyProps
   }
 }
@@ -43,22 +53,32 @@ export default function CompanyDetail(props: CompanyProps) {
   const { company } = props;
   const router = useRouter();
 
+  const [query, setQuery] = useState<QueryType>(props.query);
   const [loading, setLoading] = useState(true);
   const [list, setList] = useState<Position[]>([]);
+  const [total, setTotal] = useState(0);
+
+  const getCompanyPositions = async () => {
+    if (query.id) {
+      setLoading(true);
+      try {
+        const data = await GetCompanyPositions({
+          ...query
+        });
+        setList(data.positions?.map(i => ({
+          ...i,
+          title: i.title?.split('#')[1],
+        })) || []);
+        setTotal(data.total || 0);
+      } finally {
+        setLoading(false);
+      }
+    }
+  }
 
   useEffect(() => {
-    if (company?.id) {
-      (async () => {
-        const data = await GetCompanyPositions({
-          id: company.id,
-          start: 0,
-          limit: 5,
-        })
-        setList(data.positions || []);
-        setLoading(false);
-      })();
-    }
-  }, [company?.id])
+    getCompanyPositions();
+  }, [query.id, query.start, query.limit])
 
   return (
     <>
@@ -111,22 +131,18 @@ export default function CompanyDetail(props: CompanyProps) {
               </div>
               <div className={styles['company-content']}>
                 <article className={styles['article']}>
-                  123
-                </article>
-                <aside className={styles['aside']}>
-                  <RelevantJobList
-                    positions={list}
-                    loading={loading}
-                    onClickMore={() => {
-                      router.push({
-                        pathname: 'list',
-                        query: {
-                          title: company?.name,
-                        }
-                      })
-                    }}
+                  <h2>公司职位</h2>
+                  <JobList data={list} loading={loading} />
+                  <Pagination
+                    start={query.start}
+                    limit={query.limit}
+                    total={total}
+                    onChange={(v) => setQuery({
+                      ...query,
+                      ...v
+                    })}
                   />
-                </aside>
+                </article>
               </div>
             </div>
           </div>

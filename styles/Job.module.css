@@ -108,7 +108,7 @@
 
 .article p {
   font-size: medium;
-  white-space: pre-wrap;
+  white-space: pre-line;
 }
 
 .job-content>.aside {

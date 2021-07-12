@@ -112,9 +112,9 @@ export default function Job(props: JobProps) {
                     color="primary"
                     onClick={() => {
                       router.push({
-                        pathname: 'list',
+                        pathname: 'company',
                         query: {
-                          title: company?.name
+                          id: company?.id
                         }
                       })
                     }}

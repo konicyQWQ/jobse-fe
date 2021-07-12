@@ -1,4 +1,4 @@
-import { Salary } from "..";
+import { Position, Salary } from "..";
 import qs from 'qs';
 
 const minute = 1000 * 60;
@@ -34,4 +34,20 @@ export function getHrefQuery() {
   const url = window.location.search;
 
   return qs.parse(url);
+}
+
+export function calcTagsArray(list: Position[]) {
+  const tags = {} as Record<string, number>;
+  list.forEach(i => {
+    i.description?.tags?.forEach(i => tags[i] ? tags[i]++ : tags[i] = 1);
+  });
+
+  let arr = [] as { text: string; value: number }[];
+  for(let key in tags) {
+    arr.push({
+      text: key,
+      value: tags[key]
+    })
+  }
+  return arr;
 }

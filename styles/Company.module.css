@@ -73,3 +73,11 @@
   padding: 4px;
   background: linear-gradient(135deg, #ffa502, #ff6348);
 }
+
+.charts {
+  display: flex;
+}
+
+.charts-item {
+  flex: 1;
+}

@@ -11,7 +11,9 @@ import Button3D from "../components/Button3D";
 import { useEffect, useState } from "react";
 import JobList from '../components/JobList'
 import Pagination from '../components/Pagination'
-import { positions } from "@material-ui/system";
+import ReactECharts from 'echarts-for-react';
+import { calcTagsArray } from "../utils";
+import ReactWordCloud from 'react-wordcloud';
 
 type QueryType = {
   id?: string;
@@ -22,6 +24,13 @@ type QueryType = {
 type CompanyProps = {
   company?: Company;
   query?: QueryType;
+}
+
+const loadingOption = {
+  text: '加载中...',
+  color: '#4413c2',
+  textColor: '#270240',
+  zlevel: 0,
 }
 
 export const getServerSideProps: GetServerSideProps = async (req) => {
@@ -53,7 +62,7 @@ export default function CompanyDetail(props: CompanyProps) {
   const { company } = props;
   const router = useRouter();
 
-  const [query, setQuery] = useState<QueryType>(props.query);
+  const [query, setQuery] = useState<QueryType>(props.query || {});
   const [loading, setLoading] = useState(true);
   const [list, setList] = useState<Position[]>([]);
   const [total, setTotal] = useState(0);
@@ -79,6 +88,20 @@ export default function CompanyDetail(props: CompanyProps) {
   useEffect(() => {
     getCompanyPositions();
   }, [query.id, query.start, query.limit])
+
+
+  const [wholeList, setWholeList] = useState<Position[]>([]);
+  const [chartsLoading, setChartsLoading] = useState(true);
+  useEffect(() => {
+    GetCompanyPositions({
+      id: company?.id,
+      start: 0,
+      limit: 999,
+    }).then(data => {
+      setWholeList(data.positions || []);
+      setChartsLoading(false);
+    })
+  }, [])
 
   return (
     <>
@@ -142,6 +165,53 @@ export default function CompanyDetail(props: CompanyProps) {
                       ...v
                     })}
                   />
+                  <h2>统计信息</h2>
+                  <div className={styles['charts']}>
+                    <div className={styles['charts-item']}>
+                      <ReactECharts
+                        option={{
+                          title: {
+                            text: '公司四边形'
+                          },
+                          tooltip: {},
+                          legend: {
+                            data: ['公司四边形'],
+                            padding: 0,
+                          },
+                          radar: {
+                            indicator: [
+                              { name: '职位数量', max: 100 },
+                              { name: '平均薪水', max: 40000 },
+                              { name: '平均评分', max: 5 },
+                              { name: '平均浏览量', max: 1000 },
+                            ]
+                          },
+                          series: [{
+                            type: 'radar',
+                            data: [
+                              {
+                                value: [
+                                  wholeList.length,
+                                  wholeList.reduce((prev, curv) =>
+                                    prev + (curv.salary?.amount?.greaterThanOrEqualTo || 0), 0) / wholeList.length,
+                                  wholeList.reduce((prev, curv) => prev + (curv.rating || 0), 0) / wholeList.length / 2,
+                                  wholeList.reduce((prev, curv) => prev + (curv.views || 0), 0) / wholeList.length,
+                                ],
+                                name: '公司四边形'
+                              },
+                            ]
+                          }]
+                        }}
+                        loadingOption={loadingOption}
+                        showLoading={chartsLoading}
+                      />
+                    </div>
+                    <div className={styles['charts-item']}>
+                      {process.browser && <ReactWordCloud
+                        words={calcTagsArray(wholeList)}
+                      />}
+                    </div>
+                  </div>
                 </article>
               </div>
             </div>

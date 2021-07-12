@@ -165,7 +165,7 @@ export default function Job(props: JobProps) {
                 <article className={styles['article']}>
                   <h2>职位信息</h2>
                   <p>
-                    {position?.description?.description}
+                    {position?.description?.description || '暂无简介'}
                   </p>
                 </article>
                 <aside className={styles['aside']}>

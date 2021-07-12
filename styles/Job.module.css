@@ -109,6 +109,7 @@
 .article p {
   font-size: medium;
   white-space: pre-line;
+  line-height: 2em;
 }
 
 .job-content>.aside {

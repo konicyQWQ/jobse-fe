@@ -38,7 +38,7 @@
   line-height: 18px;
 }
 
-.requirement > *:not(:last-child)::after {
+.requirement>*:not(:last-child)::after {
   content: '|';
   vertical-align: top;
   margin: 0 10px;
@@ -47,6 +47,11 @@
 .company {
   margin-top: 5px;
   color: #666;
+  cursor: pointer;
+}
+
+.company:hover {
+  color: #e74c3c;
 }
 
 .views {

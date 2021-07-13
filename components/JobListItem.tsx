@@ -11,7 +11,7 @@ export type JobListItemProps = Position & {
 };
 
 export default function JobListItem(props: JobListItemProps) {
-  const { title, rating, requirement, salary, updateTime, views, company, id } = props;
+  const { title, rating, requirement, salary, updateTime, views, company, id, companyId } = props;
 
   const star = rating ? rating / 2 : 0;
 
@@ -42,7 +42,11 @@ export default function JobListItem(props: JobListItemProps) {
           <div>{salary2text(salary)}</div>
           <div>{requirement?.base?.join(', ')}</div>
         </div>
-        <div className={styles['company']}>{company?.name}</div>
+        <Link passHref href={{ pathname: 'company', query: { id: companyId } }}>
+          <div className={styles['company']}>
+            {company?.name}
+          </div>
+        </Link>
         <div className={styles['views']}>{views} 次浏览</div>
         <div className={styles['right-extra']}>
           <Rating value={star} readOnly precision={0.1} />

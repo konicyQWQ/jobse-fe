@@ -37,7 +37,7 @@ export default function JobListItem(props: JobListItemProps) {
           <div className={styles['title']}>{title}</div>
         </Link>
         <div className={styles['requirement']}>
-          <div>{requirement?.experience ? `${requirement.experience / 12} 年以上` : '不限经验'}</div>
+          <div>{requirement?.experience ? `${requirement.experience / 12} 年以上` : '应届生'}</div>
           <div>{requirement?.degree ? `${DegreeLabel[requirement.degree]}以上` : '不限学历'}</div>
           <div>{salary2text(salary)}</div>
           <div>{requirement?.base?.join(', ')}</div>

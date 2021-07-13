@@ -76,8 +76,10 @@ export default function CompanyDetail(props: CompanyProps) {
         });
         setList(data.positions?.map(i => ({
           ...i,
+          company,
           title: i.title?.split('#')[1],
         })) || []);
+        console.log(data)
         setTotal(data.total || 0);
       } finally {
         setLoading(false);
@@ -170,17 +172,14 @@ export default function CompanyDetail(props: CompanyProps) {
                     <div className={styles['charts-item']}>
                       <ReactECharts
                         option={{
-                          title: {
-                            text: '公司四边形'
-                          },
-                          tooltip: {},
                           legend: {
                             data: ['公司四边形'],
                             padding: 0,
                           },
+                          tooltip: {},
                           radar: {
                             indicator: [
-                              { name: '职位数量', max: 100 },
+                              { name: '职位数量', max: 1000 },
                               { name: '平均薪水', max: 40000 },
                               { name: '平均评分', max: 5 },
                               { name: '平均浏览量', max: 1000 },
@@ -192,10 +191,10 @@ export default function CompanyDetail(props: CompanyProps) {
                               {
                                 value: [
                                   wholeList.length,
-                                  wholeList.reduce((prev, curv) =>
-                                    prev + (curv.salary?.amount?.greaterThanOrEqualTo || 0), 0) / wholeList.length,
-                                  wholeList.reduce((prev, curv) => prev + (curv.rating || 0), 0) / wholeList.length / 2,
-                                  wholeList.reduce((prev, curv) => prev + (curv.views || 0), 0) / wholeList.length,
+                                  (wholeList.reduce((prev, curv) =>
+                                    prev + (curv.salary?.amount?.greaterThanOrEqualTo || 0), 0) / wholeList.length).toFixed(0),
+                                  (wholeList.reduce((prev, curv) => prev + (curv.rating || 0), 0) / wholeList.length / 2).toFixed(2),
+                                  (wholeList.reduce((prev, curv) => prev + (curv.views || 0), 0) / wholeList.length).toFixed(2),
                                 ],
                                 name: '公司四边形'
                               },
@@ -208,9 +207,63 @@ export default function CompanyDetail(props: CompanyProps) {
                     </div>
                     <div className={styles['charts-item']}>
                       {process.browser && <ReactWordCloud
+                        options={{
+                          fontSizes: [14, 32]
+                        }}
+                        callbacks={{
+                          onWordClick: (word) => {
+                            router.push({
+                              pathname: 'list',
+                              query: {
+                                title: word.text,
+                              }
+                            })
+                          }
+                        }}
                         words={calcTagsArray(wholeList)}
                       />}
                     </div>
+                  </div>
+                  <div>
+                    <ReactECharts
+                      option={{
+                        title: {
+                          text: '薪资范围表'
+                        },
+                        tooltip: {},
+                        legend: {
+                          data:['薪水']
+                        },
+                        xAxis: {
+                          data: ['0~3K', '3K~5K', '5K~10K', '10K~15K', '15K~25K', '25K以上', '面议']
+                        },
+                        yAxis: {},
+                        series: [{
+                          name: '薪水',
+                          type: 'bar',
+                          data: (() => {
+                            const arr = [0, 0, 0, 0, 0, 0, 0];
+                            wholeList.forEach(i => {
+                              if (!i.salary?.provided)
+                                arr[6]++;
+                              else {
+                                const minSalary = (i.salary?.amount?.greaterThanOrEqualTo || 0) / 1000;
+                                let pos = 0;
+                                if (minSalary > 3) pos++;
+                                if (minSalary > 5) pos++;
+                                if (minSalary > 10) pos++;
+                                if (minSalary > 15) pos++;
+                                if (minSalary > 25) pos++;
+                                arr[pos]++;
+                              }
+                            })
+                            return arr;
+                          })()
+                        }]
+                      }}
+                      style={{ height: 400 }}
+                      opts={{ renderer: 'svg' }}
+                    />
                   </div>
                 </article>
               </div>

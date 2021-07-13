@@ -14,6 +14,7 @@ import { Degree, SortOrder } from '../type';
 import { useRouter } from 'next/dist/client/router';
 import debounce from 'lodash/debounce';
 import Pagination from '../components/Pagination';
+import { trans2int } from '../utils';
 
 export const Arrow = (text: React.ReactNode) => (
   <div className={styles['middle']}>
@@ -31,20 +32,24 @@ type ListProps = {
 
 export function FillJobQueryByDefault(query: QueryType) : QueryType {
   return {
-    experience: query.experience != undefined ? parseInt(query.experience) : -1,
-    degree: parseInt(query.degree) || Degree.None,
-    salary: parseInt(query.salary) || 0,
+    experience: query.experience != undefined ? trans2int(query.experience) : -1,
+    degree: trans2int(query.degree) || Degree.None,
+    salary: trans2int(query.salary) || 0,
     title: query.title || '',
-    start: parseInt(query.start) || 0,
-    limit: parseInt(query.limit) || 10,
+    start: trans2int(query.start) || 0,
+    limit: trans2int(query.limit) || 10,
     base: query.base == '全部' ? '' : (query.base || ''),
     sortOrder: parseInt(query.sortOrder) || SortOrder.Relevance,
+    tags: query.tags || [],
   }
 }
 
 export const getServerSideProps : GetServerSideProps = async (req) => {
-  const query : QueryType = FillJobQueryByDefault(req.query);
-  
+  const query : QueryType = FillJobQueryByDefault({
+    ...req.query,
+    tags: (req.query?.tags as string || undefined)?.split(',') || [],
+  });
+
   let data;
   try {
     data = await SearchJob(query);
@@ -69,7 +74,7 @@ export const getServerSideProps : GetServerSideProps = async (req) => {
 export default function List(props: ListProps) {
   const { data, total } = props;
   const router = useRouter();
-  
+
   const [query, setQuery] = useState(props.query);
   useEffect(() => {
     setQuery(props.query)
@@ -78,7 +83,8 @@ export default function List(props: ListProps) {
   const routerPush = useCallback(debounce((query: QueryType) => router.push({
     pathname: 'list',
     query: {
-      ...query
+      ...query,
+      tags: query?.tags?.join(',')
     }
   }), 300), [])
 
@@ -103,7 +109,8 @@ export default function List(props: ListProps) {
           base: query.base,
           degree: query.degree,
           experience: query.experience,
-          salary: query.salary
+          salary: query.salary,
+          tags: query.tags,
         }}
         onChange={(v) => setQuery({
           ...query,

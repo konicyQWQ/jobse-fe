@@ -8,7 +8,6 @@ type SearchWrapProps = {
   onSearch?: () => void;
 }
 
-
 export default function SearchWrap(props: SearchWrapProps) {
   const { value, onChange, onSearch } = props;
 
@@ -17,7 +16,7 @@ export default function SearchWrap(props: SearchWrapProps) {
       <Search
         small
         value={value?.name}
-        onTextChange={(v) => onChange?.({...value, name: v})}
+        onValueChange={([_, v]) => onChange?.({...value, name: v})}
         onSearch={onSearch}
       />
     </div>

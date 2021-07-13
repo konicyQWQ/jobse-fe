@@ -15,6 +15,7 @@ import AnimatedNumber from 'react-animated-number'
 
 export default function Home() {
   const [title, setTitle] = useState('');
+  const [tags, setTags] = useState<string[]>([])
   const router = useRouter();
 
   async function onSearch(searchNull?: boolean) {
@@ -69,8 +70,12 @@ export default function Home() {
         <div>
           <Search
             className={styles['search']}
-            onTextChange={setTitle}
+            onValueChange={([tags, text]) => {
+              setTitle(text);
+              setTags(tags);
+            }}
             value={title}
+            tags={tags}
             onSearch={onSearch}
           />
           <div className={styles['extra-search']}>

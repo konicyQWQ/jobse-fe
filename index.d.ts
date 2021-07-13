@@ -65,6 +65,7 @@ declare interface JobSearchCondition {
   sortOrder?: SortOrder;
   start?: number;
   limit?: number;
+  tags?: string[];
 }
 
 declare interface CompanySearchCondition {

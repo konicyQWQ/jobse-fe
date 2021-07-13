@@ -1,34 +1,30 @@
-import Header from '../components/Header'
-import Footer from '../components/Footer'
-import CompanySearchWrap from '../components/CompanySearchWrap'
 import styles from '../styles/Clist.module.css'
 import { SearchCompany, SearchCompanyRequest, SearchCompanyResponse } from '../server';
 import { GetServerSideProps } from 'next';
 import { useCallback, useEffect, useState } from 'react';
-import CompanyList from '../components/CompanyList'
 import { SortOrder } from '../type';
 import { Arrow } from './list';
-import BlockSelect from '../components/BlockSelect';
-import { useRouter } from 'next/dist/client/router';
+import { useRouter } from 'next/router';
+import { Pagination, BlockSelect, CompanyList, Header, Footer, CompanySearchWrap } from '../components'
+import { trans2int } from '../utils';
 import debounce from 'lodash/debounce';
-import Pagination from '../components/Pagination'
 
 type QueryType = SearchCompanyRequest;
 type ClistProps = SearchCompanyResponse & {
   query: QueryType
 };
 
-export function FillCompanyQueryByDefault(query: QueryType) : QueryType {
+export function FillCompanyQueryByDefault(query: QueryType): QueryType {
   return {
-    limit: parseInt(query.limit) || 10,
-    start: parseInt(query.start) || 0,
+    limit: trans2int(query.limit) || 10,
+    start: trans2int(query.start) || 0,
     name: query.name || ''
   }
 }
 
-export const getServerSideProps : GetServerSideProps = async (req) => {
+export const getServerSideProps: GetServerSideProps = async (req) => {
   const query = FillCompanyQueryByDefault(req.query);
-  
+
   let data;
   try {
     data = await SearchCompany(query);
@@ -39,7 +35,7 @@ export const getServerSideProps : GetServerSideProps = async (req) => {
     };
   }
 
-  const props : ClistProps = {
+  const props: ClistProps = {
     ...data,
     query,
   }
@@ -49,10 +45,10 @@ export const getServerSideProps : GetServerSideProps = async (req) => {
   }
 }
 
-export default function Clist(props:ClistProps) {
+export default function Clist(props: ClistProps) {
   const { companyList, total } = props;
   const router = useRouter();
-  
+
   const [query, setQuery] = useState(props.query);
   useEffect(() => {
     setQuery(props.query);
@@ -68,7 +64,7 @@ export default function Clist(props:ClistProps) {
   useEffect(() => {
     routerPush(query);
   }, [query.start, query.limit])
-  
+
   return (
     <>
       <Header />
@@ -93,7 +89,7 @@ export default function Clist(props:ClistProps) {
               <Pagination
                 start={query.start}
                 limit={query.limit}
-                total={total} 
+                total={total}
                 onChange={(v) => setQuery({
                   ...query,
                   ...v

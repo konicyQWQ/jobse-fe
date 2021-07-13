@@ -13,6 +13,7 @@ export type JobSearchResponse = {
 }
 
 export async function SearchJob(query: JobSearchRequest) {
+  console.log(FillJobQueryByDefault(query));
   const res = await request.post('position', FillJobQueryByDefault(query));
   const data = res.data as JobSearchResponse;
 

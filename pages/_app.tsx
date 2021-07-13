@@ -1,8 +1,8 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/dist/client/router'
-import LinearProgress from '@material-ui/core/LinearProgress'
+import { useRouter } from 'next/router'
+import { LinearProgress } from '@material-ui/core'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();

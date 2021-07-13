@@ -27,7 +27,14 @@ export default function SearchWrap(props: SearchWrapProps) {
       <Search
         small
         value={value?.title}
-        onTextChange={(v) => onChange?.({...value, title: v})}
+        tags={value?.tags}
+        onValueChange={([tags, text]) => {
+          onChange?.({
+            ...value,
+            title: text,
+            tags,
+          })
+        }}
         onSearch={onSearch}
       />
       <div className={styles['extra-condition']}>

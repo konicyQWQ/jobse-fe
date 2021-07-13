@@ -51,3 +51,9 @@ export function calcTagsArray(list: Position[]) {
   }
   return arr;
 }
+
+export function trans2int(v?: number | string) {
+  if (typeof v == 'number')
+    return v;
+  return parseInt(v || '0');
+}

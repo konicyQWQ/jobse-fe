@@ -1,16 +1,11 @@
 import { GetServerSideProps } from "next";
-import { useRouter } from "next/dist/client/router";
+import { useRouter } from "next/router";
 import { Company, Position } from "..";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
-import Image from "../components/Image";
 import { GetCompanyDetail, GetCompanyPositions } from "../server";
 import styles from '../styles/Company.module.css'
-import Chip from '@material-ui/core/Chip'
-import Button3D from "../components/Button3D";
+import { Chip } from '@material-ui/core'
 import { useEffect, useState } from "react";
-import JobList from '../components/JobList'
-import Pagination from '../components/Pagination'
+import { Pagination, JobList, Button3D, Image, Header, Footer } from '../components'
 import ReactECharts from 'echarts-for-react';
 import { calcTagsArray } from "../utils";
 import ReactWordCloud from 'react-wordcloud';
@@ -232,7 +227,7 @@ export default function CompanyDetail(props: CompanyProps) {
                         },
                         tooltip: {},
                         legend: {
-                          data:['薪水']
+                          data: ['薪水']
                         },
                         xAxis: {
                           data: ['0~3K', '3K~5K', '5K~10K', '10K~15K', '15K~25K', '25K以上', '面议']

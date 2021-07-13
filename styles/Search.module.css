@@ -16,6 +16,12 @@
   border-radius: 0;
 }
 
+.input-container {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
 .input {
   border: none;
   flex: 1;

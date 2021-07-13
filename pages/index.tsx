@@ -7,8 +7,11 @@ import Typist from 'react-typist'
 import 'react-typist/dist/Typist.css'
 import { useState } from "react"
 import { useRouter } from "next/dist/client/router"
-import { defaultSearchCondition } from "../server"
+import { SearchJob } from "../server"
 import { SortOrder } from "../type"
+import { useEffect } from "react"
+import { FillJobQueryByDefault } from "./list"
+import AnimatedNumber from 'react-animated-number'
 
 export default function Home() {
   const [title, setTitle] = useState('');
@@ -17,15 +20,33 @@ export default function Home() {
   async function onSearch(searchNull?: boolean) {
     router.push({
       pathname: 'list',
-      query: {
-        ...defaultSearchCondition,
+      query: FillJobQueryByDefault({
         sortOrder: SortOrder.Relevance,
         title: searchNull ? '' : title,
         start: 0,
         limit: 10,
-      }
+      }) as unknown as null // 取消typescript报错
     })
   }
+
+  const [total, setTotal] = useState(0);
+  const getTotal = async () => {
+    try {
+      const data = await SearchJob(FillJobQueryByDefault({
+        start: 0,
+        limit: 0,
+      }));
+      setTotal(data.total || 0);
+    } catch (e) {
+
+    }
+  }
+
+  useEffect(() => {
+    getTotal();
+    const timerId = setInterval(getTotal, 2000);
+    return () => clearInterval(timerId);
+  }, []);
 
   return (
     <>
@@ -58,6 +79,18 @@ export default function Home() {
             }}>
               条件搜索?
             </Button>
+          </div>
+          <div className={styles['number']}>
+            <span>当前已收录 </span>
+            <AnimatedNumber component="text" value={total}
+              style={{
+                transition: '0.8s ease-out',
+                fontSize: 36,
+              }}
+              duration={1000}
+              stepPrecision={0}
+            />
+            <span> 条工作</span>
           </div>
         </div>
       </main>

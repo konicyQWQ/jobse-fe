@@ -13,7 +13,6 @@ import styles from '../styles/List.module.css'
 import { Degree, SortOrder } from '../type';
 import { useRouter } from 'next/dist/client/router';
 import debounce from 'lodash/debounce';
-import qs from 'qs';
 import Pagination from '../components/Pagination';
 
 export const Arrow = (text: React.ReactNode) => (

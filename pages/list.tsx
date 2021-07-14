@@ -39,7 +39,7 @@ export function FillJobQueryByDefault(query: QueryType) : QueryType {
     start: trans2int(query.start) || 0,
     limit: query.limit != undefined ? trans2int(query.limit) : 10,
     base: query.base == '全部' ? '' : (query.base || ''),
-    sortOrder: query.sortOrder != undefined ? parseInt(query.sortOrder) : ((query.title || query.tags?.length > 0) ? SortOrder.Relevance : SortOrder.UpdateTime),
+    sortOrder: query.sortOrder != undefined ? parseInt(query.sortOrder) : ((query.title || (query.tags?.length || 0)) > 0) ? SortOrder.Relevance : SortOrder.UpdateTime,
     tags: query.tags || [],
   }
 }

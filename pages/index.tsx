@@ -8,9 +8,9 @@ import 'react-typist/dist/Typist.css'
 import { useState } from "react"
 import { useRouter } from "next/dist/client/router"
 import { GetHotTags, SearchJob } from "../server"
-import { SortOrder } from "../type"
 import { useEffect, memo } from "react"
 import { FillJobQueryByDefault } from "./list"
+// @ts-ignore
 import AnimatedNumber from 'react-animated-number'
 import { HotTags } from ".."
 import ReactWordcloud from "react-wordcloud"

@@ -92,7 +92,7 @@ export default function Job(props: JobProps) {
                       {salaryString}
                     </div>
                     <Rating
-                      value={position?.rating / 2}
+                      value={(position?.rating || 0) / 2}
                       precision={0.1}
                       onChange={(_, v) => {
                         RatePosition({

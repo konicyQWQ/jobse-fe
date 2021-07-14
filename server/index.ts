@@ -190,7 +190,7 @@ export async function GetHotTags(query: HotTagsRequest) {
       limit: query.limit || 20
     }
   });
-  const data: HotTagsResponse = res.data.map(i => ({
+  const data: HotTagsResponse = res.data.map((i: { tagName: string, count: number }) => ({
     text: i.tagName,
     value: i.count,
   }));

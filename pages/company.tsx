@@ -7,7 +7,7 @@ import { Chip } from '@material-ui/core'
 import { useEffect, useState } from "react";
 import { Pagination, JobList, Button3D, Image, Header, Footer } from '../components'
 import ReactECharts from 'echarts-for-react';
-import { calcTagsArray } from "../utils";
+import { calcTagsArray, trans2int } from "../utils";
 import ReactWordCloud from 'react-wordcloud';
 
 type QueryType = {
@@ -31,8 +31,8 @@ const loadingOption = {
 export const getServerSideProps: GetServerSideProps = async (req) => {
   const query: QueryType = {
     id: (req.query.id || 0) as string,
-    start: parseInt(req.query.start || 0) || 0,
-    limit: parseInt(req.query.end || 5) || 5
+    start: trans2int(req.query.start as string || 0) || 0,
+    limit: trans2int(req.query.end as string || 5) || 5
   };
   let data: Company;
   try {

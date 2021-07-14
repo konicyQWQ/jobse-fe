@@ -83,3 +83,5 @@ declare interface HotTags {
 declare interface CompanySearchCondition {
   name?: string;
 }
+
+declare module 'react-animated-number';

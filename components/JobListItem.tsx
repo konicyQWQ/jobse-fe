@@ -40,7 +40,7 @@ export default function JobListItem(props: JobListItemProps) {
           <div className={styles['title']}>
             <div
               className={styles['text']}
-              dangerouslySetInnerHTML={{ __html: highlight?.titleHighlight || title || ''}}
+              dangerouslySetInnerHTML={{ __html: highlight?.titleHighlight?.split('#')[1] || title || ''}}
             >
             </div>
             <div className={styles['tags']}>
@@ -81,8 +81,10 @@ export default function JobListItem(props: JobListItemProps) {
           <div>{requirement?.base?.join(', ')}</div>
         </div>
         <Link passHref href={{ pathname: 'company', query: { id: companyId } }}>
-          <div className={styles['company']}>
-            {company?.name}
+          <div
+            className={styles['company']}
+            dangerouslySetInnerHTML={{ __html: highlight?.titleHighlight?.split('#')[0] || company?.name || ''}}
+          >
           </div>
         </Link>
         <div className={styles['views']}>{views} 次浏览</div>

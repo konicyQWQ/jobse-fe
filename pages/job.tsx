@@ -74,6 +74,15 @@ export default function Job(props: JobProps) {
     }
   }, [position?.id, position?.title])
 
+  const description = (() => {
+    const text = position?.description?.description;
+    if (text && typeof text == 'string') {
+      return text.replaceAll(/\<br\s*\/?\>/g, "\n");
+    } else {
+      return '暂无简介'
+    }
+  })()
+
   return (
     <>
       <Header />
@@ -165,7 +174,7 @@ export default function Job(props: JobProps) {
                 <article className={styles['article']}>
                   <h2>职位信息</h2>
                   <p>
-                    {position?.description?.description?.replaceAll(/\<br\s*\/?\>/g, "\n") || '暂无简介'}
+                    {description}
                   </p>
                 </article>
                 <aside className={styles['aside']}>

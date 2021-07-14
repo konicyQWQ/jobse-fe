@@ -76,6 +76,7 @@ export default function Search(props: SerachProps) {
                 })
               } else {
                 onSearch?.();
+                setFocus(false);
               }
             }
             // 按下 tab 生成标签

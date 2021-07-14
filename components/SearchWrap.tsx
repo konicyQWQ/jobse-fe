@@ -6,6 +6,7 @@ import { Degree } from '../type'
 import Select from './Select'
 import { JobSearchCondition } from '..'
 import { City, Province } from '../utils/province'
+import HotTagsSelect from './HotTagsSelect'
 
 type SearchWrapProps = {
   value?: JobSearchCondition;
@@ -115,6 +116,15 @@ export default function SearchWrap(props: SearchWrapProps) {
             }}
           />
         </BlockSelect>
+        <HotTagsSelect
+          value={value?.tags}
+          onChange={(v) => {
+            onChange?.({
+              ...value,
+              tags: v,
+            });
+          }}
+        />
         <BlockSelect label="薪资待遇">
           <Slider
             style={{ width: 600 }}

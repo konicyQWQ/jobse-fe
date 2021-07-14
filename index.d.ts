@@ -35,11 +35,18 @@ declare interface Position {
   requirement?: JobRequirement;
   description?: JobDescription;
   company?: Company;
+  highlight?: PositionHight;
+}
+
+declare interface PositionHight {
+  titleHighlight?: string;
+  tagsHighlight?: Record<string, string>;
 }
 
 declare interface PositionInfo {
   id?: string;
   position?: Position;
+  highlight?: PositionHight;
 }
 
 declare interface CompanyInfo {
@@ -66,6 +73,11 @@ declare interface JobSearchCondition {
   start?: number;
   limit?: number;
   tags?: string[];
+}
+
+declare interface HotTags {
+  text?: string;
+  value?: number;
 }
 
 declare interface CompanySearchCondition {

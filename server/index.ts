@@ -1,4 +1,4 @@
-import { Company, CompanyInfo, JobSearchCondition, Position, PositionInfo } from '..';
+import { Company, CompanyInfo, HotTags, JobSearchCondition, Position, PositionInfo } from '..';
 import { FillJobQueryByDefault } from '../pages/list';
 import request from './axios';
 
@@ -13,15 +13,15 @@ export type JobSearchResponse = {
 }
 
 export async function SearchJob(query: JobSearchRequest) {
-  console.log(FillJobQueryByDefault(query));
   const res = await request.post('position', FillJobQueryByDefault(query));
   const data = res.data as JobSearchResponse;
 
   const total = data.positionList?.total;
   const positions : Position[] = data.positionList?.positions?.map(i => ({
     ...i.position,
-    title: i.position?.title?.split('#')[1] || i.position?.title,
+    highlight: i.highlight,
     id: i.id,
+    title: i.position?.title?.split('#')[1] || i.position?.title,
     company: data.companies?.[i.position?.companyId || 0],
   })) || [];
 
@@ -157,4 +157,42 @@ export async function RatePosition(query: RatePositionRequest) {
     ...query
   })
   return Promise.resolve();
+}
+
+export type SuggestRequest = {
+  title?: string;
+}
+
+export type SuggestResponse = {
+  id?: string;
+  title?: string;
+  views?: number;
+}[];
+
+export async function Suggest(query: SuggestRequest) {
+  const res = await request.get('position/suggest', {
+    params: {
+      keyword: query.title || '',
+    }
+  });
+  return res.data as SuggestResponse;
+}
+
+export type HotTagsRequest = {
+  limit?: number;
+}
+
+export type HotTagsResponse = HotTags[];
+
+export async function GetHotTags(query: HotTagsRequest) {
+  const res = await request.get('position/hottags', {
+    params: {
+      limit: query.limit || 20
+    }
+  });
+  const data: HotTagsResponse = res.data.map(i => ({
+    text: i.tagName,
+    value: i.count,
+  }));
+  return data;
 }

@@ -37,9 +37,9 @@ export function FillJobQueryByDefault(query: QueryType) : QueryType {
     salary: trans2int(query.salary) || 0,
     title: query.title || '',
     start: trans2int(query.start) || 0,
-    limit: trans2int(query.limit) || 10,
+    limit: query.limit != undefined ? trans2int(query.limit) : 10,
     base: query.base == '全部' ? '' : (query.base || ''),
-    sortOrder: parseInt(query.sortOrder) || SortOrder.Relevance,
+    sortOrder: query.sortOrder != undefined ? parseInt(query.sortOrder) : ((query.title || query.tags?.length > 0) ? SortOrder.Relevance : SortOrder.UpdateTime),
     tags: query.tags || [],
   }
 }
@@ -75,6 +75,7 @@ export default function List(props: ListProps) {
   const { data, total } = props;
   const router = useRouter();
 
+  const [first, setFirst] = useState(true);
   const [query, setQuery] = useState(props.query);
   useEffect(() => {
     setQuery(props.query)
@@ -89,16 +90,24 @@ export default function List(props: ListProps) {
   }), 300), [])
 
   useEffect(() => {
-    routerPush({
-      ...query,
-      start: 0,
-      limit: 10,
-    });
+    if (!first) {
+      routerPush({
+        ...query,
+        start: 0,
+        limit: 10,
+      });
+    }
   }, [query.base, query.degree, query.experience, query.sortOrder, query.salary])
 
   useEffect(() => {
-    routerPush(query)
+    if (!first) {
+      routerPush(query)
+    }
   }, [query.start, query.limit])
+
+  useEffect(() => {
+    setFirst(false);
+  }, [])
 
   return (
     <>

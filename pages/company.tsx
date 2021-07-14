@@ -210,7 +210,8 @@ export default function CompanyDetail(props: CompanyProps) {
                             router.push({
                               pathname: 'list',
                               query: {
-                                title: word.text,
+                                title: company?.name,
+                                tags: word.text,
                               }
                             })
                           }

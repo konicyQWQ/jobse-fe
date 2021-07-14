@@ -16,6 +16,7 @@ import Search from './Search'
 import SearchWrap from './SearchWrap'
 import RelevantJobList from './RelevantJobList'
 import Pagination from './Pagination'
+import HotTagsSelect from './HotTagsSelect'
 
 export {
   BlockSelect,
@@ -35,6 +36,7 @@ export {
   Select,
   Seo,
   RelevantJobList,
-  Pagination
+  Pagination,
+  HotTagsSelect
 }
 

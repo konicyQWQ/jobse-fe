@@ -1,7 +1,8 @@
 .job-item-container {
   display: flex;
+  overflow: hidden;
   font-size: small;
-  padding: 10px 20px;
+  padding: 10px 140px 10px 20px;
   min-height: 100px;
   border-bottom: .5px solid #f6f6f6;
   transition: all .2s linear;
@@ -15,19 +16,44 @@
 }
 
 .avatar {
+  flex-shrink: 0;
   width: 80px;
   height: 80px;
   overflow: hidden;
   margin-right: 20px;
 }
 
+.information {
+  flex: 1;
+  width: 0;
+}
+
 .title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title>.text {
   font-size: 18px;
   font-weight: 500;
   line-height: 1.4;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
-.title:hover {
+.title>.tags {
+  flex: none;
+  display: flex;
+  overflow: hidden;
+}
+
+.title>.tags>* {
+  margin-left: 10px;
+}
+
+.title>.text:hover {
   cursor: pointer;
   color: #e74c3c;
 }

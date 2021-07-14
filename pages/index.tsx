@@ -7,22 +7,61 @@ import Typist from 'react-typist'
 import 'react-typist/dist/Typist.css'
 import { useState } from "react"
 import { useRouter } from "next/dist/client/router"
-import { SearchJob } from "../server"
+import { GetHotTags, SearchJob } from "../server"
 import { SortOrder } from "../type"
-import { useEffect } from "react"
+import { useEffect, memo } from "react"
 import { FillJobQueryByDefault } from "./list"
 import AnimatedNumber from 'react-animated-number'
+import { HotTags } from ".."
+import ReactWordcloud from "react-wordcloud"
+
+type TagsCloudProps = {
+  words?: HotTags[];
+}
+
+const TagsCloud = memo(function TagsCloud(props: TagsCloudProps) {
+  const { words } = props;
+  const router = useRouter();
+
+  return (
+    process.browser ? <ReactWordcloud
+      options={{
+        fontSizes: [14, 32]
+      }}
+      callbacks={{
+        onWordClick: (word) => {
+          router.push({
+            pathname: 'list',
+            query: {
+              tags: word.text,
+            }
+          })
+        }
+      }}
+      words={words?.map(i => ({ text: i.text || '', value: i.value || 0 })) || []}
+    /> : <div></div>
+  )
+}, (pre) => {
+  return (pre.words?.length || 0) > 0
+})
 
 export default function Home() {
-  const [title, setTitle] = useState('');
-  const [tags, setTags] = useState<string[]>([])
+  const [state, setState] = useState({
+    title: '',
+    tags: [],
+  } as {
+    title: string;
+    tags: string[];
+  })
+  const title = state.title;
+  const tags = state.tags;
+
   const router = useRouter();
 
   async function onSearch(searchNull?: boolean) {
     router.push({
       pathname: 'list',
       query: FillJobQueryByDefault({
-        sortOrder: SortOrder.Relevance,
         title: searchNull ? '' : title,
         start: 0,
         limit: 10,
@@ -44,11 +83,23 @@ export default function Home() {
     }
   }
 
+  const [hotTags, setHotTags] = useState<HotTags[]>([]);
+  const getHotTags = async () => {
+    try {
+      const data = await GetHotTags({ limit: 20 });
+      setHotTags(data);
+    } catch (e) {}
+  }
+
   useEffect(() => {
     getTotal();
     const timerId = setInterval(getTotal, 2000);
     return () => clearInterval(timerId);
   }, []);
+
+  useEffect(() => {
+    getHotTags();
+  }, [])
 
   return (
     <>
@@ -72,8 +123,10 @@ export default function Home() {
           <Search
             className={styles['search']}
             onValueChange={([tags, text]) => {
-              setTitle(text);
-              setTags(tags);
+              setState({
+                tags,
+                title: text,
+              })
             }}
             value={title}
             tags={tags}
@@ -85,6 +138,9 @@ export default function Home() {
             }}>
               条件搜索?
             </Button>
+          </div>
+          <div className={styles['wordcloud']}>
+            <TagsCloud words={hotTags} />
           </div>
           <div className={styles['number']}>
             <span>当前已收录 </span>

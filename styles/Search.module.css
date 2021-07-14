@@ -7,6 +7,7 @@
   border: 1px solid rgba(0 0 0 .3 / 30%);
   box-shadow: 0 1px 5px rgb(0 0 0 / 30%);
   border-radius: 24px;
+  position: relative;
 }
 
 .small {
@@ -31,4 +32,44 @@
 
 .input:focus {
   outline: none;
+}
+
+.suggest {
+  position: absolute;
+  z-index: 20;
+  top: 100%;
+  left: 12px;
+  right: 12px;
+  border-radius: 0 0 24px 24px;
+  box-shadow: 0 2px 5px rgb(0 0 0 / 30%);
+  overflow: hidden;
+}
+
+.suggest-item {
+  background: white;
+  padding: 10px 20px;
+  border-bottom: 0.5px solid #eee;
+  transition: all .2s linear;
+  cursor: pointer;
+}
+
+.suggest-item:hover,
+.suggest-item.active {
+  background: #eee;
+}
+
+.suggest-item .title {
+  font-size: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.suggest-item .extra {
+  margin-top: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: small;
+  color: #666;
 }

@@ -26,6 +26,7 @@ export default function Home() {
         title: searchNull ? '' : title,
         start: 0,
         limit: 10,
+        tags,
       }) as unknown as null // 取消typescript报错
     })
   }

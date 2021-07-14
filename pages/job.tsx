@@ -137,7 +137,7 @@ export default function Job(props: JobProps) {
                             router.push({
                               pathname: 'list',
                               query: {
-                                title: i,
+                                tags: [i],
                               }
                             })
                           }}
@@ -165,7 +165,7 @@ export default function Job(props: JobProps) {
                 <article className={styles['article']}>
                   <h2>职位信息</h2>
                   <p>
-                    {position?.description?.description || '暂无简介'}
+                    {position?.description?.description?.replaceAll(/\<br\s*\/?\>/g, "\n") || '暂无简介'}
                   </p>
                 </article>
                 <aside className={styles['aside']}>

@@ -74,7 +74,6 @@ export default function CompanyDetail(props: CompanyProps) {
           company,
           title: i.title?.split('#')[1],
         })) || []);
-        console.log(data)
         setTotal(data.total || 0);
       } finally {
         setLoading(false);

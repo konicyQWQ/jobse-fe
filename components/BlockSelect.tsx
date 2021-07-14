@@ -34,7 +34,6 @@ export default function BlockSelect<T>(props: BlockSelectProps<T>) {
                   } else {
                     newValues.push(option.value);
                   }
-                  console.log(newValues)
                   onValuesChange?.(newValues);
                 } else {
                   onChange?.(option.value)

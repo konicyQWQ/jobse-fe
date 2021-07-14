@@ -77,7 +77,7 @@ export default function Job(props: JobProps) {
   const description = (() => {
     const text = position?.description?.description;
     if (text && typeof text == 'string') {
-      return text.replaceAll(/\<br\s*\/?\>/g, "\n");
+      return text.replace(/\<br\s*\/?\>/g, "\n");
     } else {
       return '暂无简介'
     }

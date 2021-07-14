@@ -2,6 +2,13 @@ import { Company, CompanyInfo, HotTags, JobSearchCondition, Position, PositionIn
 import { FillJobQueryByDefault } from '../pages/list';
 import request from './axios';
 
+export type JobCountSearchResponse = number;
+
+export async function GetJobCount() {
+  const res = await request.get('position/count');
+  return res.data as number || 0;
+}
+
 export type JobSearchRequest = JobSearchCondition;
 
 export type JobSearchResponse = {

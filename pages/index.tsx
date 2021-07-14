@@ -7,7 +7,7 @@ import Typist from 'react-typist'
 import 'react-typist/dist/Typist.css'
 import { useState } from "react"
 import { useRouter } from "next/dist/client/router"
-import { GetHotTags, SearchJob } from "../server"
+import { GetHotTags, GetJobCount, SearchJob } from "../server"
 import { useEffect, memo } from "react"
 import { FillJobQueryByDefault } from "./list"
 // @ts-ignore
@@ -73,11 +73,8 @@ export default function Home() {
   const [total, setTotal] = useState(0);
   const getTotal = async () => {
     try {
-      const data = await SearchJob(FillJobQueryByDefault({
-        start: 0,
-        limit: 0,
-      }));
-      setTotal(data.total || 0);
+      const data = await GetJobCount();
+      setTotal(data || 0);
     } catch (e) {
 
     }

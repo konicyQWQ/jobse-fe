@@ -13,10 +13,11 @@ type SerachProps = HTMLAttributes<HTMLDivElement> & {
   tags?: string[];
   onValueChange?: (v: [string[], string]) => void;
   onSearch?: () => void;
+  placeholder?: string;
 };
 
 export default function Search(props: SerachProps) {
-  const { className, value, tags = [], onValueChange, onSearch, small = false, ...other } = props;
+  const { className, value, tags = [], onValueChange, onSearch, small = false, placeholder, ...other } = props;
   const router = useRouter();
 
   const handleDelete = (idx: number) => {
@@ -64,7 +65,7 @@ export default function Search(props: SerachProps) {
           onFocus={() => setFocus(true)}
           onBlur={() => setFocus(false)}
           onChange={e => onValueChange?.([tags, e.target.value])}
-          placeholder="输入职位，公司，关键词，输入任意词语按下tab生成标签"
+          placeholder={placeholder || "输入职位，公司，关键词，输入任意词语按下tab生成标签"}
           onKeyDown={(e) => {
             if (e.key == 'Enter') {
               if (activeIdx != -1) {

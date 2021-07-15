@@ -18,6 +18,7 @@ export default function SearchWrap(props: SearchWrapProps) {
         value={value?.name}
         onValueChange={([_, v]) => onChange?.({...value, name: v})}
         onSearch={onSearch}
+        placeholder={"输入公司名称"}
       />
     </div>
   )

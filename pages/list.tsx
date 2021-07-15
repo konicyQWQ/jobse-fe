@@ -48,7 +48,7 @@ export function FillJobQueryByDefault(query: QueryType) : QueryType {
 export const getServerSideProps : GetServerSideProps = async (req) => {
   const query : QueryType = FillJobQueryByDefault({
     ...req.query,
-    tags: (req.query?.tags as string || undefined)?.split(',') || [],
+    tags: typeof req.query.tags == 'string' ? [req.query.tags] : ( req.query.tags || [] ),
   });
 
   let data;
@@ -86,7 +86,7 @@ export default function List(props: ListProps) {
     pathname: 'list',
     query: {
       ...query,
-      tags: query?.tags?.join(',')
+      tags: query?.tags
     }
   }), 300), [])
 

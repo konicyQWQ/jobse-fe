@@ -187,6 +187,7 @@ export async function Suggest(query: SuggestRequest) {
 
 export type HotTagsRequest = {
   limit?: number;
+  threshold?: number;
 }
 
 export type HotTagsResponse = HotTags[];
@@ -194,7 +195,8 @@ export type HotTagsResponse = HotTags[];
 export async function GetHotTags(query: HotTagsRequest) {
   const res = await request.get('position/hottags', {
     params: {
-      limit: query.limit || 20
+      limit: query.limit || 20,
+      threshold: query.threshold || 100,
     }
   });
   const data: HotTagsResponse = res.data.map((i: { tagName: string, count: number }) => ({

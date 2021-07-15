@@ -5,7 +5,7 @@ import { GetCompanyDetail, GetCompanyPositions } from "../server";
 import styles from '../styles/Company.module.css'
 import { Chip } from '@material-ui/core'
 import { useEffect, useState } from "react";
-import { Pagination, JobList, Button3D, Image, Header, Footer } from '../components'
+import { Pagination, JobList, Button3D, Image, Header, Footer, Seo } from '../components'
 import ReactECharts from 'echarts-for-react';
 import { calcTagsArray, trans2int } from "../utils";
 import ReactWordCloud from 'react-wordcloud';
@@ -101,6 +101,11 @@ export default function CompanyDetail(props: CompanyProps) {
 
   return (
     <>
+      <Seo
+        title={company?.name || 'jobSearch'}
+        description={company?.description}
+        image={company?.iconUrl}
+      />
       <Header />
       <main className="body-container">
         <div className="content-container">

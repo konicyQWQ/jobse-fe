@@ -14,6 +14,7 @@ import { FillJobQueryByDefault } from "./list"
 import AnimatedNumber from 'react-animated-number'
 import { HotTags } from ".."
 import ReactWordcloud from "react-wordcloud"
+import { Seo } from "../components"
 
 type TagsCloudProps = {
   words?: HotTags[];
@@ -100,6 +101,11 @@ export default function Home() {
 
   return (
     <>
+      <Seo
+        title={"找工作, 就看JobSearch"}
+        description={"最新最全的全网工作聚合信息"}
+        image={"/company.jpeg"}
+      />
       <Header />
       <main className={styles['main']}>
         <Typist

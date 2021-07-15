@@ -15,6 +15,7 @@ import { useRouter } from 'next/dist/client/router';
 import debounce from 'lodash/debounce';
 import Pagination from '../components/Pagination';
 import { trans2int } from '../utils';
+import { Seo } from '../components';
 
 export const Arrow = (text: React.ReactNode) => (
   <div className={styles['middle']}>
@@ -111,6 +112,11 @@ export default function List(props: ListProps) {
 
   return (
     <>
+      <Seo 
+        title={"找工作, 就看JobSearch"}
+        description={"最新最全的全网工作聚合信息"}
+        image={"/company.jpeg"}
+      />
       <Header />
       <SearchWrap
         value={{

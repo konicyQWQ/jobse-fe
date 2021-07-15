@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { SortOrder } from '../type';
 import { Arrow } from './list';
 import { useRouter } from 'next/router';
-import { Pagination, BlockSelect, CompanyList, Header, Footer, CompanySearchWrap } from '../components'
+import { Pagination, BlockSelect, CompanyList, Header, Footer, CompanySearchWrap, Seo } from '../components'
 import { trans2int } from '../utils';
 import debounce from 'lodash/debounce';
 
@@ -67,6 +67,11 @@ export default function Clist(props: ClistProps) {
 
   return (
     <>
+      <Seo
+        title={"找工作, 就看JobSearch"}
+        description={"最新最全的全网工作聚合信息"}
+        image={"/company.jpeg"}
+      />
       <Header />
       <CompanySearchWrap value={query} onChange={setQuery} onSearch={() => routerPush(query)} />
       <main className="body-container">

@@ -17,6 +17,7 @@ import { useEffect, useState } from "react";
 import Snackbar from '@material-ui/core/Snackbar'
 import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
+import { Seo } from "../components";
 
 type QueryType = {
   id?: string;
@@ -86,6 +87,11 @@ export default function Job(props: JobProps) {
   return (
     <>
       <Header />
+      <Seo 
+        title={title || 'JobSearch'}
+        description={description}
+        image={company?.iconUrl}
+      />
       <main className="body-container">
         <div className="content-container">
           <div className={styles["container"]}>

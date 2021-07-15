@@ -28,52 +28,53 @@ export default function JobListItem(props: JobListItemProps) {
         />
       </div>
       <div className={styles['information']}>
-        <Link
-          href={{
-            pathname: 'job',
-            query: {
-              id
-            }
-          }}
-          passHref
-        >
-          <div className={styles['title']}>
-            <div
+        <div className={styles['title']}>
+          <Link
+            href={{
+              pathname: 'job',
+              query: {
+                id
+              }
+            }}
+            passHref
+          >
+            <a
               className={styles['text']}
-              dangerouslySetInnerHTML={{ __html: highlight?.titleHighlight?.split('#')[1] || title || ''}}
+              dangerouslySetInnerHTML={{ __html: highlight?.titleHighlight?.split('#')[1] || title || '' }}
             >
-            </div>
-            <div className={styles['tags']}>
-              {description?.tags?.map((i, idx) => (
-                <div
-                  key={idx}
-                  onClick={() => {
-                    router.push({
-                      pathname: 'list',
-                      query: {
-                        tags: [i],
-                      }
-                    })
-                  }}
-                >
-                  <Chip
-                    size="small"
-                    label={
-                      <span dangerouslySetInnerHTML={{ __html: highlight?.tagsHighlight?.[i] || i}}>
-                      </span>
+            </a>
+          </Link>
+          <div className={styles['tags']}>
+            {description?.tags?.map((i, idx) => (
+              <div
+                key={idx}
+                onClick={() => {
+                  router.push({
+                    pathname: 'list',
+                    query: {
+                      tags: [i],
                     }
-                    clickable
-                    style={{
-                      borderRadius: 0,
-                      fontSize: 12,
-                      fontWeight: 400,
-                    }}
-                  />
-                </div>
-              ))}
-            </div>
+                  })
+                }}
+              >
+                <Chip
+                  size="small"
+                  label={
+                    <span dangerouslySetInnerHTML={{ __html: highlight?.tagsHighlight?.[i] || i }}>
+                    </span>
+                  }
+                  clickable
+                  style={{
+                    borderRadius: 0,
+                    fontSize: 12,
+                    fontWeight: 400,
+                  }}
+                />
+              </div>
+            ))}
           </div>
-        </Link>
+
+        </div>
         <div className={styles['requirement']}>
           <div>{requirement?.experience ? `${requirement.experience / 12} 年以上` : '应届生'}</div>
           <div>{requirement?.degree ? `${DegreeLabel[requirement.degree]}以上` : '不限学历'}</div>
@@ -83,7 +84,7 @@ export default function JobListItem(props: JobListItemProps) {
         <Link passHref href={{ pathname: 'company', query: { id: companyId } }}>
           <div
             className={styles['company']}
-            dangerouslySetInnerHTML={{ __html: highlight?.titleHighlight?.split('#')[0] || company?.name || ''}}
+            dangerouslySetInnerHTML={{ __html: highlight?.titleHighlight?.split('#')[0] || company?.name || '' }}
           >
           </div>
         </Link>

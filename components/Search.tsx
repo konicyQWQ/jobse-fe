@@ -62,6 +62,7 @@ export default function Search(props: SerachProps) {
         <input
           className={styles['input']}
           value={value}
+          maxLength={50}
           onFocus={() => setFocus(true)}
           onBlur={() => setFocus(false)}
           onChange={e => onValueChange?.([tags, e.target.value])}

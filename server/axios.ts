@@ -8,7 +8,7 @@ const request = axios.create({
 
 request.interceptors.request.use(
   config => {
-    let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJKb2JTRUNsaWVudCIsImV4cCI6MTYyNjM2NDIyMiwiaXNzIjoiSm9iU0VTZXJ2ZXIiLCJhdWQiOiJKb2JTRUNsaWVudCJ9.G5ijjRQq6njuNtX76dOu2xwwZh_py9UUY4JbtDJdZLs';
+    let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJKb2JTRUNsaWVudCIsImV4cCI6MTYyNzAwODkwNCwiaXNzIjoiSm9iU0VTZXJ2ZXIiLCJhdWQiOiJKb2JTRUNsaWVudCJ9.SVMS_6A28C7WsaGbDJL3PJ3IJE2Z_3NbzeCKh0xoWBs';
     config.headers['Authorization'] = 'Bearer ' + token;
     if (config.method == 'post') {
       config.data = qs.stringify(config.data);

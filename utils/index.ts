@@ -57,3 +57,7 @@ export function trans2int(v?: number | string) {
     return v;
   return parseInt(v || '0');
 }
+
+export function splitTitle(str?: string) {
+  return str?.split('#').slice(1).join('#') || str;
+}

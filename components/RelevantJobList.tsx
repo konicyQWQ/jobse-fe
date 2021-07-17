@@ -5,7 +5,7 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import Fade from '@material-ui/core/Fade'
 import Button from '@material-ui/core/Button'
 import Link from 'next/link'
-import { salary2text } from "../utils";
+import { salary2text, splitTitle } from "../utils";
 import Empty from './Empty';
 
 type RelevantJobListProps = {
@@ -38,7 +38,7 @@ export default function RelevantJobList(props: RelevantJobListProps) {
                   }}
                 >
                   <div className={styles['job-title']}>
-                    {position.title?.split('#')[1] || position.title}
+                    {splitTitle(position.title) || position.title}
                   </div>
                 </Link>
                 <div className={styles['company']}>

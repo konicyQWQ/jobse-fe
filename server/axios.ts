@@ -2,8 +2,8 @@ import axios from 'axios';
 import qs from 'qs';
 
 const request = axios.create({
-  // baseURL: 'http://120.27.220.61:5000/api',
-  baseURL: process.env.NODE_ENV == 'production' ? 'http://120.27.220.61:5000/api' : 'http://10.162.116.205:5000/api',
+  baseURL: 'http://120.27.220.61:5000/api',
+  // baseURL: process.env.NODE_ENV == 'production' ? 'http://120.27.220.61:5000/api' : 'http://10.162.116.205:5000/api',
 });
 
 request.interceptors.request.use(

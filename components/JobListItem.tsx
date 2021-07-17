@@ -3,7 +3,7 @@ import { DegreeLabel } from "../type";
 import styles from '../styles/JobListItem.module.css'
 import Link from 'next/link'
 import Rating from '@material-ui/lab/Rating'
-import { salary2text, TimeToNow2String } from "../utils";
+import { salary2text, splitTitle, TimeToNow2String } from "../utils";
 import Image from "./Image";
 import { Chip } from "@material-ui/core";
 import { useRouter } from "next/router";
@@ -40,7 +40,7 @@ export default function JobListItem(props: JobListItemProps) {
           >
             <a
               className={styles['text']}
-              dangerouslySetInnerHTML={{ __html: highlight?.titleHighlight?.split('#')[1] || title || '' }}
+              dangerouslySetInnerHTML={{ __html: splitTitle(highlight?.titleHighlight) || title || '' }}
             >
             </a>
           </Link>

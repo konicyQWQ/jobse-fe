@@ -1,5 +1,6 @@
 import { Company, CompanyInfo, HotTags, JobSearchCondition, Position, PositionInfo } from '..';
 import { FillJobQueryByDefault } from '../pages/list';
+import { splitTitle } from '../utils';
 import request from './axios';
 
 export type JobCountSearchResponse = number;
@@ -28,7 +29,7 @@ export async function SearchJob(query: JobSearchRequest) {
     ...i.position,
     highlight: i.highlight,
     id: i.id,
-    title: i.position?.title?.split('#')[1] || i.position?.title,
+    title: splitTitle(i.position?.title) || i.position?.title,
     company: data.companies?.[i.position?.companyId || 0],
   })) || [];
 

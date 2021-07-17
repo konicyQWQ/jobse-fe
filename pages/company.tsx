@@ -7,7 +7,7 @@ import { Chip } from '@material-ui/core'
 import { useEffect, useState } from "react";
 import { Pagination, JobList, Button3D, Image, Header, Footer, Seo } from '../components'
 import ReactECharts from 'echarts-for-react';
-import { calcTagsArray, trans2int } from "../utils";
+import { calcTagsArray, splitTitle, trans2int } from "../utils";
 import ReactWordCloud from 'react-wordcloud';
 
 type QueryType = {
@@ -72,7 +72,7 @@ export default function CompanyDetail(props: CompanyProps) {
         setList(data.positions?.map(i => ({
           ...i,
           company,
-          title: i.title?.split('#')[1],
+          title: splitTitle(i.title),
         })) || []);
         setTotal(data.total || 0);
       } finally {

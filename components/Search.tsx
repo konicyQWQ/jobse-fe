@@ -6,6 +6,7 @@ import { debounce } from 'lodash';
 import { Suggest, SuggestResponse } from '../server';
 import { useState, useRef, useEffect, HTMLAttributes } from 'react';
 import { useRouter } from 'next/router'
+import { splitTitle } from '../utils';
 
 type SerachProps = HTMLAttributes<HTMLDivElement> & {
   small?: boolean;
@@ -120,7 +121,7 @@ export default function Search(props: SerachProps) {
               }}
             >
               <div className={styles['title']}>
-                {i.title?.split('#')[1]}
+                {splitTitle(i.title)}
               </div>
               <div className={styles['extra']}>
                 <div className={styles['company']}>

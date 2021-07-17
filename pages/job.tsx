@@ -11,7 +11,7 @@ import { DegreeLabel } from "../type";
 import Button3D from '../components/Button3D'
 import CompanyCard from "../components/CompanyCard";
 import RelevantJobList from "../components/RelevantJobList";
-import { salary2text } from "../utils";
+import { salary2text, splitTitle } from "../utils";
 import { useRouter } from "next/dist/client/router";
 import { useEffect, useState } from "react";
 import Snackbar from '@material-ui/core/Snackbar'
@@ -52,7 +52,7 @@ export const getServerSideProps: GetServerSideProps = async (req) => {
 
 export default function Job(props: JobProps) {
   const { position, company } = props;
-  const title = position?.title?.split('#')[1];
+  const title = splitTitle(position?.title);
   const salaryString = salary2text(position?.salary)
   const router = useRouter();
 

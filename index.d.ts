@@ -38,7 +38,7 @@ declare interface Position {
   highlight?: PositionHight;
 }
 
-declare interface PositionHight {
+declare interface PositionHighlight {
   titleHighlight?: string;
   tagsHighlight?: Record<string, string>;
 }
@@ -46,12 +46,15 @@ declare interface PositionHight {
 declare interface PositionInfo {
   id?: string;
   position?: Position;
-  highlight?: PositionHight;
+  highlight?: PositionHighlight;
 }
+
+declare type CompanyHighlight = PositionHighlight;
 
 declare interface CompanyInfo {
   id?: string;
   company?: Company;
+  highlight?: CompanyHighlight;
 }
 
 declare interface Company {
@@ -61,6 +64,7 @@ declare interface Company {
   location?: string;
   description?: string;
   tags?: string[];
+  highlight?: CompanyHighlight;
 }
 
 declare interface JobSearchCondition {
@@ -81,7 +85,8 @@ declare interface HotTags {
 }
 
 declare interface CompanySearchCondition {
-  name?: string;
+  title?: string;
+  tags?: string[];
 }
 
 declare module 'react-animated-number';

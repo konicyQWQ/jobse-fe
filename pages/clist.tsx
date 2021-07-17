@@ -18,7 +18,8 @@ export function FillCompanyQueryByDefault(query: QueryType): QueryType {
   return {
     limit: trans2int(query.limit) || 10,
     start: trans2int(query.start) || 0,
-    name: query.name || ''
+    title: query.title || '',
+    tags: typeof query.tags == 'string' ? [query.tags] : (query.tags || []),
   }
 }
 

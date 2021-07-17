@@ -3,10 +3,11 @@ import styles from '../styles/Search.module.css'
 import SearchIcon from '@material-ui/icons/Search'
 import { Chip, Fade, IconButton } from '@material-ui/core'
 import { debounce } from 'lodash';
-import { Suggest, SuggestResponse } from '../server';
+import { Suggest, SuggestCompany, SuggestCompanyResponse, SuggestResponse } from '../server';
 import { useState, useRef, useEffect, HTMLAttributes } from 'react';
 import { useRouter } from 'next/router'
 import { splitTitle } from '../utils';
+import { Company } from '..';
 
 type SerachProps = HTMLAttributes<HTMLDivElement> & {
   small?: boolean;
@@ -15,10 +16,11 @@ type SerachProps = HTMLAttributes<HTMLDivElement> & {
   onValueChange?: (v: [string[], string]) => void;
   onSearch?: () => void;
   placeholder?: string;
+  company?: boolean;
 };
 
 export default function Search(props: SerachProps) {
-  const { className, value, tags = [], onValueChange, onSearch, small = false, placeholder, ...other } = props;
+  const { className, value, tags = [], company, onValueChange, onSearch, small = false, placeholder, ...other } = props;
   const router = useRouter();
 
   const handleDelete = (idx: number) => {
@@ -27,16 +29,20 @@ export default function Search(props: SerachProps) {
   }
 
   const [list, setList] = useState<SuggestResponse>([]);
+  const [companyList, setCompanyList] = useState<Company[]>([]);
+
   const getSuggestWord = useRef(debounce(async (title?: string) => {
     if (title) {
       try {
-        const list = await Suggest({ title });
-        setList(list);
+        if (company) {
+          const company = await SuggestCompany({ name: title });
+          setCompanyList(company)
+        } else {
+          const list = await Suggest({ title });
+          setList(list);
+        }
       } catch (e) {
-        setList([{
-          title: '字节跳动#前端工程师',
-          views: 100,
-        }])
+        setList([])
       }
     }
   }, 300)).current;
@@ -107,9 +113,33 @@ export default function Search(props: SerachProps) {
       </IconButton>
       <Fade in={focus}>
         <div className={styles['suggest']}>
-          {list.map((i, idx) => (
+          {company && companyList.map((i, idx) => (
             <div
-              key={i.title}
+              key={i.id}
+              className={classNames(styles['suggest-item'], activeIdx == idx && styles['active'])}
+              onClick={() => {
+                router.push({
+                  pathname: 'company',
+                  query: {
+                    id: i.id
+                  }
+                })
+              }}
+            >
+              <div className={styles['title']}>
+                {i.name}
+              </div>
+              <div className={styles['extra']}>
+                <div className={styles['company']}>
+                  {i.location}
+                </div>
+              </div>
+            </div>
+          ))}
+
+          {!company && list.map((i, idx) => (
+            <div
+              key={i.id}
               className={classNames(styles['suggest-item'], activeIdx == idx && styles['active'])}
               onClick={() => {
                 router.push({

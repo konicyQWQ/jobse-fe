@@ -15,10 +15,12 @@ export default function SearchWrap(props: SearchWrapProps) {
     <div className={styles['container']}>
       <Search
         small
-        value={value?.name}
-        onValueChange={([_, v]) => onChange?.({...value, name: v})}
+        tags={value?.tags}
+        value={value?.title}
+        onValueChange={([tags, v]) => onChange?.({...value, title: v, tags,})}
         onSearch={onSearch}
         placeholder={"输入公司名称"}
+        company={true}
       />
     </div>
   )

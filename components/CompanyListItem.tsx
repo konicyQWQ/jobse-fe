@@ -8,7 +8,7 @@ import { useRouter } from "next/dist/client/router";
 export type CompanyListItemProps = Company;
 
 export default function CompanyListItem(props: CompanyListItemProps) {
-  const { iconUrl, location, name, id, tags } = props;
+  const { iconUrl, location, name, id, tags, highlight } = props;
   const router = useRouter();
 
   return (
@@ -30,7 +30,11 @@ export default function CompanyListItem(props: CompanyListItemProps) {
           }}
           passHref
         >
-          <div className={styles['title']}>{name}</div>
+          <div
+            className={styles['title']}
+            dangerouslySetInnerHTML={{ __html: highlight?.titleHighlight || name || ''}}
+          >
+          </div>
         </Link>
         <div className={styles['location']}>
           <div>{location}</div>
@@ -43,12 +47,19 @@ export default function CompanyListItem(props: CompanyListItemProps) {
                 router.push({
                   pathname: 'clist',
                   query: {
-                    name: i,
+                    tags: [i],
                   }
                 })
               }}
             >
-              <Chip size="small" clickable label={i} />
+              <Chip
+                size="small"
+                clickable
+                label={
+                  <span dangerouslySetInnerHTML={{ __html: highlight?.tagsHighlight?.[i] || i }}>
+                  </span>
+                }
+              />
             </div>
           ))}
         </div>

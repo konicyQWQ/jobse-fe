@@ -75,7 +75,8 @@ export async function RelevantJobQuery(query: RelevantJobRequest) {
 }
 
 export type SearchCompanyRequest = {
-  name?: string;
+  title?: string;
+  tags?: string[];
   start?: number;
   limit?: number;
 }
@@ -91,13 +92,12 @@ export type SearchCompanyResponse = {
 }
 
 export async function SearchCompany(query: SearchCompanyRequest) {
-  const res = await request.get('company/search', {
-    params: {
-      start: 0,
-      limit: 10,
-      name: '',
-      ...query,
-    }
+  const res = await request.post('company/search', {
+    start: 0,
+    limit: 10,
+    title: '',
+    tags: [],
+    ...query,
   });
   const data = res.data as SearchCompanyResponseTmpData;
   return {
@@ -105,6 +105,7 @@ export async function SearchCompany(query: SearchCompanyRequest) {
     companyList: data.companyList?.map(i => ({
       ...i.company,
       id: i.id,
+      highlight: i.highlight
     }))
   };
 }
@@ -184,6 +185,25 @@ export async function Suggest(query: SuggestRequest) {
     }
   });
   return res.data as SuggestResponse;
+}
+
+export type SuggestCompanyRequest = {
+  name?: string;
+}
+
+export type SuggestCompanyResponse = CompanyInfo[];
+
+export async function SuggestCompany(query: SuggestCompanyRequest) {
+  const res = await request.get('company/suggest', {
+    params: {
+      name: query.name || '',
+    }
+  });
+  const data = res.data as SuggestCompanyResponse;
+  return data.map(i => ({
+    ...i.company,
+    id: i.id,
+  })) as Company[];
 }
 
 export type HotTagsRequest = {

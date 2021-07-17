@@ -40,7 +40,9 @@ export function FillJobQueryByDefault(query: QueryType) : QueryType {
     start: trans2int(query.start) || 0,
     limit: query.limit != undefined ? trans2int(query.limit) : 10,
     base: query.base == '全部' ? '' : (query.base || ''),
-    sortOrder: query.sortOrder != undefined ? parseInt(query.sortOrder) : SortOrder.Relevance,
+    sortOrder: query.sortOrder != undefined 
+                ? parseInt(query.sortOrder) 
+                : (query.title && query.title.length > 0 || query.tags && query.tags.length > 0 ) ? SortOrder.Relevance : SortOrder.UpdateTime,
     tags: query.tags || [],
   }
 }
@@ -127,11 +129,17 @@ export default function List(props: ListProps) {
           salary: query.salary,
           tags: query.tags,
         }}
-        onChange={(v) => setQuery({
+        onChange={(v) => {
+          const newQuery = {
+            ...query,
+            ...v,
+          }
+          setQuery(newQuery);
+        }}
+        onSearch={() => routerPush({
           ...query,
-          ...v
+          sortOrder: SortOrder.Relevance,
         })}
-        onSearch={() => routerPush(query)}
       />
       <main className="body-container">
         <div className="content-container">

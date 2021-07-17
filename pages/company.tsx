@@ -174,6 +174,7 @@ export default function CompanyDetail(props: CompanyProps) {
                           legend: {
                             data: ['公司四边形'],
                             padding: 0,
+                            show: false,
                           },
                           tooltip: {},
                           radar: {
@@ -232,7 +233,8 @@ export default function CompanyDetail(props: CompanyProps) {
                         },
                         tooltip: {},
                         legend: {
-                          data: ['薪水']
+                          data: ['薪水'],
+                          show: false,
                         },
                         xAxis: {
                           data: ['0~3K', '3K~5K', '5K~10K', '10K~15K', '15K~25K', '25K以上', '面议']

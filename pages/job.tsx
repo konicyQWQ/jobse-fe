@@ -59,6 +59,9 @@ export default function Job(props: JobProps) {
   const [loading, setLoading] = useState(true);
   const [list, setList] = useState<Position[]>([]);
 
+  const [rated, setRated] = useState(false);
+  const [ratedText, setRatedText] = useState('评分成功');
+
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -110,10 +113,17 @@ export default function Job(props: JobProps) {
                       value={(position?.rating || 0) / 2}
                       precision={0.1}
                       onChange={(_, v) => {
-                        RatePosition({
-                          id: position?.id,
-                          score: ((v || 0) * 2) || position?.rating,
-                        })
+                        if (rated) {
+                          setRatedText("请勿重新评分");
+                        }
+                        if (!rated) {
+                          RatePosition({
+                            id: position?.id,
+                            score: ((v || 0) * 2) || position?.rating,
+                          })
+                          setRated(true);
+                          setRatedText(`评分成功`);
+                        }
                         setOpen(true);
                       }}
                     />
@@ -206,13 +216,13 @@ export default function Job(props: JobProps) {
       <Footer color="black" />
       <Snackbar 
         anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
+          vertical: 'top',
+          horizontal: 'center',
         }}
         open={open}
         autoHideDuration={3000}
         onClose={() => setOpen(false)}
-        message="评分成功"
+        message={ratedText}
         action={
           <IconButton size="small" aria-label="close" color="inherit" onClick={() => setOpen(false)}>
             <CloseIcon fontSize="small" />

@@ -8,6 +8,7 @@ import { useState, useRef, useEffect, HTMLAttributes } from 'react';
 import { useRouter } from 'next/router'
 import { splitTitle } from '../utils';
 import { Company } from '..';
+import Image from './Image';
 
 type SerachProps = HTMLAttributes<HTMLDivElement> & {
   small?: boolean;
@@ -116,7 +117,7 @@ export default function Search(props: SerachProps) {
           {company && companyList.map((i, idx) => (
             <div
               key={i.id}
-              className={classNames(styles['suggest-item'], activeIdx == idx && styles['active'])}
+              className={classNames(styles['suggest-item'], activeIdx == idx && styles['active'], styles['company'])}
               onClick={() => {
                 router.push({
                   pathname: 'company',
@@ -126,12 +127,20 @@ export default function Search(props: SerachProps) {
                 })
               }}
             >
-              <div className={styles['title']}>
-                {i.name}
-              </div>
-              <div className={styles['extra']}>
-                <div className={styles['company']}>
-                  {i.location}
+              <Image
+                src={i.iconUrl}
+                width={50}
+                height={50}
+                alt={i.name}
+              />
+              <div className={styles['text']}>
+                <div className={styles['title']}>
+                  {i.name}
+                </div>
+                <div className={styles['extra']}>
+                  <div className={styles['company']}>
+                    {i.location}
+                  </div>
                 </div>
               </div>
             </div>

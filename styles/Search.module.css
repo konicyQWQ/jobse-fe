@@ -53,6 +53,14 @@
   cursor: pointer;
 }
 
+.suggest-item.company {
+  display: flex;
+}
+
+.suggest-item.company>*:not(:first-child) {
+  margin-left: 10px;
+}
+
 .suggest-item:hover,
 .suggest-item.active {
   background: #eee;

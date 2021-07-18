@@ -1,3 +1,4 @@
+import { number } from 'echarts';
 import { Company, CompanyInfo, HotTags, JobSearchCondition, Position, PositionInfo } from '..';
 import { FillJobQueryByDefault } from '../pages/list';
 import { splitTitle } from '../utils';
@@ -225,4 +226,22 @@ export async function GetHotTags(query: HotTagsRequest) {
     value: i.count,
   }));
   return data;
+}
+
+export type CompanyStatistics = {
+  totalCount?: number;
+  averageSalary?: number;
+  averageRating?: number; 
+  totalViewCount?: number; 
+  tags?: {key: string, value: number}[];
+  salaryRange?: number[];
+}
+
+export async function GetStatistics(id?: string) {
+  const res = await request.get('company/statistics', {
+    params: {
+      id
+    }
+  });
+  return res.data as CompanyStatistics;
 }

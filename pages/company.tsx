@@ -1,7 +1,7 @@
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { Company, Position } from "..";
-import { GetCompanyDetail, GetCompanyPositions } from "../server";
+import { CompanyStatistics, GetCompanyDetail, GetCompanyPositions, GetStatistics } from "../server";
 import styles from '../styles/Company.module.css'
 import { Chip } from '@material-ui/core'
 import { useEffect, useState } from "react";
@@ -86,18 +86,15 @@ export default function CompanyDetail(props: CompanyProps) {
   }, [query.id, query.start, query.limit])
 
 
-  const [wholeList, setWholeList] = useState<Position[]>([]);
+  const [statistics, setStatistics] = useState<CompanyStatistics>();
   const [chartsLoading, setChartsLoading] = useState(true);
   useEffect(() => {
-    GetCompanyPositions({
-      id: company?.id,
-      start: 0,
-      limit: 999,
-    }).then(data => {
-      setWholeList(data.positions || []);
+    GetStatistics(company?.id).then(data => {
+      setStatistics(data);
       setChartsLoading(false);
-    })
+    }).catch();
   }, [])
+
 
   return (
     <>
@@ -179,10 +176,10 @@ export default function CompanyDetail(props: CompanyProps) {
                           tooltip: {},
                           radar: {
                             indicator: [
-                              { name: '职位数量', max: 1000 },
-                              { name: '平均薪水', max: 40000 },
+                              { name: '职位数量', max: 2000 },
+                              { name: '平均薪水', max: 80000 },
                               { name: '平均评分', max: 5 },
-                              { name: '平均浏览量', max: 1000 },
+                              { name: '总浏览量', max: 10000 },
                             ]
                           },
                           series: [{
@@ -190,11 +187,10 @@ export default function CompanyDetail(props: CompanyProps) {
                             data: [
                               {
                                 value: [
-                                  wholeList.length,
-                                  (wholeList.reduce((prev, curv) =>
-                                    prev + (curv.salary?.amount?.greaterThanOrEqualTo || 0), 0) / wholeList.length).toFixed(0),
-                                  (wholeList.reduce((prev, curv) => prev + (curv.rating || 0), 0) / wholeList.length / 2).toFixed(2),
-                                  (wholeList.reduce((prev, curv) => prev + (curv.views || 0), 0) / wholeList.length).toFixed(2),
+                                  statistics?.totalCount || 0,
+                                  statistics?.averageSalary || 0,
+                                  (statistics?.averageRating || 0) / 2,
+                                  statistics?.totalViewCount
                                 ],
                                 name: '公司四边形'
                               },
@@ -221,7 +217,7 @@ export default function CompanyDetail(props: CompanyProps) {
                             })
                           }
                         }}
-                        words={calcTagsArray(wholeList)}
+                        words={statistics?.tags?.map(i => ({ text: i.key, value: i.value })) || []}
                       />}
                     </div>
                   </div>
@@ -243,24 +239,7 @@ export default function CompanyDetail(props: CompanyProps) {
                         series: [{
                           name: '薪水',
                           type: 'bar',
-                          data: (() => {
-                            const arr = [0, 0, 0, 0, 0, 0, 0];
-                            wholeList.forEach(i => {
-                              if (!i.salary?.provided)
-                                arr[6]++;
-                              else {
-                                const minSalary = (i.salary?.amount?.greaterThanOrEqualTo || 0) / 1000;
-                                let pos = 0;
-                                if (minSalary > 3) pos++;
-                                if (minSalary > 5) pos++;
-                                if (minSalary > 10) pos++;
-                                if (minSalary > 15) pos++;
-                                if (minSalary > 25) pos++;
-                                arr[pos]++;
-                              }
-                            })
-                            return arr;
-                          })()
+                          data: statistics?.salaryRange?.slice(1).concat(statistics.salaryRange[0]),
                         }]
                       }}
                       style={{ height: 400 }}

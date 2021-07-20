@@ -176,10 +176,10 @@ export default function CompanyDetail(props: CompanyProps) {
                           tooltip: {},
                           radar: {
                             indicator: [
-                              { name: '职位数量', max: 2000 },
-                              { name: '平均薪水', max: 80000 },
+                              { name: '职位数量', max: 1500 },
+                              { name: '平均薪水', max: 40000 },
                               { name: '平均评分', max: 5 },
-                              { name: '总浏览量', max: 10000 },
+                              { name: '总浏览量', max: 4000 },
                             ]
                           },
                           series: [{
@@ -188,7 +188,7 @@ export default function CompanyDetail(props: CompanyProps) {
                               {
                                 value: [
                                   statistics?.totalCount || 0,
-                                  statistics?.averageSalary || 0,
+                                  statistics?.averageSalary?.toFixed(0) || 0,
                                   (statistics?.averageRating || 0) / 2,
                                   statistics?.totalViewCount
                                 ],

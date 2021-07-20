@@ -46,9 +46,9 @@ export default function Header() {
           </Button>
         </Link>
         <div className={styles['header-seperation']}></div>
-        <IconButton>
+        {/* <IconButton>
           <HistoryIcon />
-        </IconButton>
+        </IconButton> */}
       </div>
       <div className={classNames(fixed && styles['placeholder'])}> </div>
     </>
